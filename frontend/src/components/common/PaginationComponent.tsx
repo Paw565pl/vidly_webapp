@@ -1,4 +1,4 @@
-import Pagination from "react-bootstrap/Pagination";
+import { Pagination } from "react-bootstrap";
 
 interface Props {
   itemsCount: number;

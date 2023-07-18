@@ -1,5 +1,9 @@
 import { ReactNode, useState } from "react";
 import { Table } from "react-bootstrap";
+import {
+  AiOutlineSortAscending,
+  AiOutlineSortDescending,
+} from "react-icons/ai";
 import resolveObjectPath from "../../utils/resolveObjectPath";
 
 interface Header {
@@ -27,6 +31,21 @@ const TableComponent = ({ headers, data }: Props) => {
         : { value: sortValue, order: "asc" }
     );
 
+  const renderSortIcon = (header: Header) => {
+    if (sorting.value !== header.value) return null;
+
+    switch (sorting.order) {
+      case "asc":
+        return <AiOutlineSortAscending />;
+
+      case "dsc":
+        return <AiOutlineSortDescending />;
+
+      default:
+        return null;
+    }
+  };
+
   const renderCell = (item: Item, header: Header) =>
     (resolveObjectPath(item, header.value) as ReactNode) || header.content;
 
@@ -48,6 +67,7 @@ const TableComponent = ({ headers, data }: Props) => {
           {headers.map((header, i) => (
             <th key={i} onClick={() => handleSort(header.value)}>
               {header.label}
+              {renderSortIcon(header)}
             </th>
           ))}
         </tr>
