@@ -15,6 +15,7 @@ const ListGroupComponent = ({ items, selectedItemId, onItemSelect }: Props) => {
           key={item._id}
           active={item._id === selectedItemId}
           onClick={() => onItemSelect(item._id)}
+          style={{ cursor: "pointer" }}
         >
           {item.name}
         </ListGroup.Item>
