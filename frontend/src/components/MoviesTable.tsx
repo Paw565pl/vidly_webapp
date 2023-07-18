@@ -1,6 +1,6 @@
 import { Button, Table } from "react-bootstrap";
 import { Movie } from "../services/fakeMovieService";
-import LikeButton from "./LikeButton";
+import LikeButton from "./common/LikeButton";
 
 interface Props {
   movies: Movie[];

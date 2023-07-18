@@ -5,7 +5,10 @@ const LikeButton = () => {
   const [clicked, setClicked] = useState(false);
 
   return (
-    <div onClick={() => setClicked(prev => !prev)} style={{cursor: "pointer"}}>
+    <div
+      onClick={() => setClicked((prev) => !prev)}
+      style={{ cursor: "pointer" }}
+    >
       {clicked ? <AiFillHeart /> : <AiOutlineHeart />}
     </div>
   );

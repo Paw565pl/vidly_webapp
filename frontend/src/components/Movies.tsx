@@ -4,10 +4,10 @@ import { getGenres } from "../services/fakeGenreService";
 import { getMovies } from "../services/fakeMovieService";
 import paginate from "../utils/paginate";
 import resolveObjectPath from "../utils/resolveObjectPath";
-import ListGroupComponent from "./ListGroupComponent";
 import MoviesHeading from "./MoviesHeading";
 import MoviesTable from "./MoviesTable";
-import PaginationComponent from "./PaginationComponent";
+import ListGroupComponent from "./common/ListGroupComponent";
+import PaginationComponent from "./common/PaginationComponent";
 
 const Movies = () => {
   const allMovies = getMovies();
