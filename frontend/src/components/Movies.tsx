@@ -10,54 +10,42 @@ import MoviesTable from "./MoviesTable";
 import PaginationComponent from "./PaginationComponent";
 
 const Movies = () => {
-  const pageSize = 4;
-  const [activePage, setActivePage] = useState(1);
-
   const allMovies = getMovies();
-  const [movies, setMovies] = useState(
-    paginate(allMovies, activePage, pageSize)
-  );
-
   const genres = [{ _id: "", name: "All genres" }, ...getGenres()];
+
+  const pageSize = 4;
+
+  const [activePage, setActivePage] = useState(1);
   const [selectedGenreId, setSelectedGenreId] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
 
   const filteredMovies = selectedGenreId
     ? allMovies.filter((movie) => movie.genre._id === selectedGenreId)
     : allMovies;
 
-  const handleDelete = (idMovie: string) =>
-    setMovies((prevMovies) => prevMovies.filter((m) => m._id !== idMovie));
+  const sortedMovies = filteredMovies.sort((movieA, movieB) =>
+    resolveObjectPath(movieA, sortOrder) < resolveObjectPath(movieB, sortOrder)
+      ? -1
+      : 1
+  );
 
-  const handlePageChange = (page: number) => {
-    setActivePage(page);
-    setMovies(paginate(filteredMovies, page, pageSize));
-  };
+  const paginatedMovies = paginate(sortedMovies, activePage, pageSize);
+
+  const handleDelete = (idMovie: string) =>
+    // TODO: to impelement
+    console.log(idMovie);
+
+  const handlePageChange = (page: number) => setActivePage(page);
 
   const handleGenreSelect = (genreId: string) => {
     setActivePage(1);
     setSelectedGenreId(genreId);
-    genreId
-      ? setMovies(
-          paginate(
-            allMovies.filter((movie) => movie.genre._id === genreId),
-            1,
-            pageSize
-          )
-        )
-      : setMovies(paginate(allMovies, 1, pageSize));
   };
 
-  const handleSort = (sortValue: string) => {
-    const sortedMovies = filteredMovies.sort((movieA, movieB) =>
-      resolveObjectPath(movieA, sortValue) <
-      resolveObjectPath(movieB, sortValue)
-        ? -1
-        : 1
-    );
-    setMovies(paginate(sortedMovies, activePage, pageSize));
-  };
+  const handleSort = (sortValue: string) => setSortOrder(sortValue);
 
-  if (movies.length === 0) return <h6>There are no movies in the database.</h6>;
+  if (sortedMovies.length === 0)
+    return <h6>There are no movies in the database.</h6>;
 
   return (
     <Row>
@@ -69,14 +57,14 @@ const Movies = () => {
         ></ListGroupComponent>
       </Col>
       <Col>
-        <MoviesHeading moviesCount={filteredMovies.length}></MoviesHeading>
+        <MoviesHeading moviesCount={sortedMovies.length}></MoviesHeading>
         <MoviesTable
-          movies={movies}
+          movies={paginatedMovies}
           onSort={handleSort}
           onDelete={handleDelete}
         ></MoviesTable>
         <PaginationComponent
-          itemsCount={filteredMovies.length}
+          itemsCount={sortedMovies.length}
           pageSize={pageSize}
           activePage={activePage}
           onPageChange={handlePageChange}
