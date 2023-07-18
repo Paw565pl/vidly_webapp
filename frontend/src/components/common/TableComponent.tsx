@@ -65,9 +65,13 @@ const TableComponent = ({ headers, data }: Props) => {
       <thead>
         <tr>
           {headers.map((header, i) => (
-            <th key={i} onClick={() => handleSort(header.value)}>
+            <th
+              key={i}
+              onClick={() => handleSort(header.value)}
+              style={{ cursor: "pointer" }}
+            >
               {header.label}
-              {renderSortIcon(header)}
+              {header.label && renderSortIcon(header)}
             </th>
           ))}
         </tr>
