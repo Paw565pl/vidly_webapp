@@ -1,45 +1,28 @@
-import { Button, Table } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { Movie } from "../services/fakeMovieService";
 import LikeButton from "./common/LikeButton";
+import TableComponent, { Item } from "./common/TableComponent";
 
 interface Props {
   movies: Movie[];
-  onSort: (sortValue: string) => void;
-  onDelete: (movieId: string) => void;
 }
 
-const MoviesTable = ({ movies, onSort, onDelete }: Props) => {
+const MoviesTable = ({ movies }: Props) => {
+  const headers = [
+    { value: "title", label: "Title" },
+    { value: "genre.name", label: "Genre" },
+    { value: "numberInStock", label: "Stock" },
+    { value: "dailyRentalRate", label: "Rate" },
+    { value: "", label: "", content: <LikeButton /> },
+    {
+      value: "",
+      label: "",
+      content: <Button variant={"danger"}>Delete</Button>,
+    },
+  ];
+
   return (
-    <Table>
-      <thead>
-        <tr>
-          <th onClick={() => onSort("title")}>Title</th>
-          <th onClick={() => onSort("genre.name")}>Genre</th>
-          <th onClick={() => onSort("numberInStock")}>Stock</th>
-          <th onClick={() => onSort("dailyRentalRate")}>Rate</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {movies.map((movie, i) => (
-          <tr key={i}>
-            <td>{movie.title}</td>
-            <td>{movie.genre.name}</td>
-            <td>{movie.numberInStock}</td>
-            <td>{movie.dailyRentalRate}</td>
-            <td>
-              <LikeButton></LikeButton>
-            </td>
-            <td>
-              <Button variant={"danger"} onClick={() => onDelete(movie._id)}>
-                Delete
-              </Button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
+    <TableComponent headers={headers} data={movies as Item[]}></TableComponent>
   );
 };
 
