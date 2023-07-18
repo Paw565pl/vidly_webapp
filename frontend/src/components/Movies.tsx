@@ -17,17 +17,22 @@ const Movies = () => {
 
   const [activePage, setActivePage] = useState(1);
   const [selectedGenreId, setSelectedGenreId] = useState("");
-  const [sortOrder, setSortOrder] = useState("");
+  const [sorting, setSorting] = useState({ value: "", order: "" });
 
   const filteredMovies = selectedGenreId
     ? allMovies.filter((movie) => movie.genre._id === selectedGenreId)
     : allMovies;
 
-  const sortedMovies = filteredMovies.sort((movieA, movieB) =>
-    resolveObjectPath(movieA, sortOrder) < resolveObjectPath(movieB, sortOrder)
-      ? -1
-      : 1
-  );
+  const sortedMovies = sorting.value
+    ? filteredMovies.sort((movieA, movieB) => {
+        const sortOrder = sorting.order === "asc" ? 1 : -1;
+
+        return resolveObjectPath(movieA, sorting.value) <
+          resolveObjectPath(movieB, sorting.value)
+          ? -sortOrder
+          : sortOrder;
+      })
+    : filteredMovies;
 
   const paginatedMovies = paginate(sortedMovies, activePage, pageSize);
 
@@ -42,7 +47,12 @@ const Movies = () => {
     setSelectedGenreId(genreId);
   };
 
-  const handleSort = (sortValue: string) => setSortOrder(sortValue);
+  const handleSort = (sortValue: string) =>
+    setSorting((prevSorting) =>
+      prevSorting.order === "asc"
+        ? { value: sortValue, order: "dsc" }
+        : { value: sortValue, order: "asc" }
+    );
 
   if (sortedMovies.length === 0)
     return <h6>There are no movies in the database.</h6>;
