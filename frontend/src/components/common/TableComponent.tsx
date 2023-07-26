@@ -13,7 +13,7 @@ interface Header {
 }
 
 export interface Item {
-  [key: string]: ReactNode;
+  [key: string]: any;
 }
 
 interface Props {

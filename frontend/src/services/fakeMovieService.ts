@@ -1,7 +1,6 @@
 import * as genresAPI from "./fakeGenreService";
 
 export interface Movie {
-  [key: string]: string | genresAPI.Genre | number;
   _id: string;
   title: string;
   genre: genresAPI.Genre;

@@ -9,10 +9,11 @@ const router = createBrowserRouter([
   {
     path: "",
     element: <Layout />,
-    errorElement: <Navigate to={"not-found"} />,
+    errorElement: <Navigate to={"movies"} />,
     children: [
       { index: true, element: <Navigate to={"movies"} /> },
       { path: "movies", element: <Movies /> },
+      { path: "movie/:id", element: <h1>test</h1> },
       { path: "customers", element: <Customers /> },
       { path: "rentals", element: <Rentals /> },
       { path: "not-found", element: <NotFound /> },
