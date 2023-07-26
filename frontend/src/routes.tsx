@@ -9,6 +9,7 @@ const router = createBrowserRouter([
   {
     path: "",
     element: <Layout />,
+    errorElement: <Navigate to={"not-found"} />,
     children: [
       { index: true, element: <Navigate to={"movies"} /> },
       { path: "movies", element: <Movies /> },
