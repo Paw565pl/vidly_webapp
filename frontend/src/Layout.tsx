@@ -1,13 +1,13 @@
 import { Container } from "react-bootstrap";
-import Movies from "./components/Movies";
+import { Outlet } from "react-router-dom";
 
-const App = () => {
+const Layout = () => {
   return (
     <Container>
       <h1>vidly</h1>
-      <Movies></Movies>
+      <Outlet />
     </Container>
   );
 };
 
-export default App;
+export default Layout;
