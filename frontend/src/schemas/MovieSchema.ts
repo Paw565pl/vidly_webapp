@@ -10,7 +10,7 @@ const MovieSchema = z.object({
   rate: z
     .number({ invalid_type_error: "this field is required" })
     .min(0, "must be greater than 0")
-    .max(10, "must be greater than 10"),
+    .max(10, "must be less than 10"),
 });
 
 export default MovieSchema;
