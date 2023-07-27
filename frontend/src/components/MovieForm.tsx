@@ -41,6 +41,7 @@ const MovieForm = () => {
         <Input
           id="title"
           register={register("title")}
+          value={currMovie?.title}
           errorMessage={errors.title && errors.title.message}
         >
           Title
@@ -49,6 +50,7 @@ const MovieForm = () => {
           id="genre"
           options={genres}
           register={register("genre")}
+          defaultValue={currMovie?.genre.name}
           errorMessage={errors.genre && errors.genre.message}
         >
           Genre
@@ -57,6 +59,7 @@ const MovieForm = () => {
           type="number"
           id="numberInStock"
           register={register("numberInStock", { valueAsNumber: true })}
+          value={currMovie?.numberInStock}
           errorMessage={errors.numberInStock && errors.numberInStock.message}
         >
           Number In Stock
@@ -65,6 +68,7 @@ const MovieForm = () => {
           type="number"
           id="rate"
           register={register("rate", { valueAsNumber: true })}
+          value={currMovie?.dailyRentalRate}
           errorMessage={errors.rate && errors.rate.message}
         >
           Rate

@@ -8,6 +8,7 @@ interface Props {
   children: ReactNode;
   errorMessage?: string;
   type?: HTMLInputTypeAttribute;
+  value?: string | number;
   autofocus?: boolean;
 }
 
@@ -17,12 +18,18 @@ const Input = ({
   children,
   errorMessage,
   type,
+  value,
   autofocus,
 }: Props) => {
   return (
     <Form.Group className="mb-3" controlId={id}>
       <Form.Label>{children}</Form.Label>
-      <Form.Control {...register} type={type || "text"} autoFocus={autofocus} />
+      <Form.Control
+        {...register}
+        type={type || "text"}
+        autoFocus={autofocus}
+        value={value}
+      />
       {errorMessage && (
         <Form.Text className="text-danger">{errorMessage}</Form.Text>
       )}

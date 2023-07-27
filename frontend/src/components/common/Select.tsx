@@ -14,6 +14,7 @@ interface Props {
   register: UseFormRegisterReturn;
   children: ReactNode;
   errorMessage?: string;
+  defaultValue?: string | number;
   autofocus?: boolean;
 }
 
@@ -23,12 +24,17 @@ const Select = ({
   register,
   children,
   errorMessage,
+  defaultValue,
   autofocus,
 }: Props) => {
   return (
     <Form.Group className="mb-3" controlId={id}>
       <Form.Label>{children}</Form.Label>
-      <Form.Select {...register} autoFocus={autofocus} defaultValue={""}>
+      <Form.Select
+        {...register}
+        autoFocus={autofocus}
+        defaultValue={defaultValue}
+      >
         <option value={""}></option>
         {options.map((option) => (
           <option key={option._id} value={option.name}>
