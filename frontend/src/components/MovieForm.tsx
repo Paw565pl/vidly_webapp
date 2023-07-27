@@ -4,8 +4,10 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import MovieSchema from "../schemas/MovieSchema";
+import { getGenres } from "../services/fakeGenreService";
 import { getMovies } from "../services/fakeMovieService";
 import Input from "./common/Input";
+import Select from "./common/Select";
 
 type FormData = z.infer<typeof MovieSchema>;
 
@@ -14,6 +16,8 @@ const MovieForm = () => {
 
   const currMovie = getMovies().find((movie) => movie._id === id);
   if (!currMovie && id !== "new") throw new Error("Movie not found");
+
+  const genres = getGenres();
 
   const navigate = useNavigate();
 
@@ -41,13 +45,14 @@ const MovieForm = () => {
         >
           Title
         </Input>
-        <Input
+        <Select
           id="genre"
+          options={genres}
           register={register("genre")}
           errorMessage={errors.genre && errors.genre.message}
         >
           Genre
-        </Input>
+        </Select>
         <Input
           type="number"
           id="numberInStock"
