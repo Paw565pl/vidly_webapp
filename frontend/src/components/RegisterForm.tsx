@@ -11,7 +11,7 @@ const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<FormData>({
     resolver: zodResolver(UserSchema),
   });
@@ -48,7 +48,7 @@ const RegisterForm = () => {
         >
           Password
         </Input>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" disabled={!isValid}>
           Submit
         </Button>
       </Form>

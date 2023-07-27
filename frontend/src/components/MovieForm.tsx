@@ -24,7 +24,7 @@ const MovieForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<FormData>({
     resolver: zodResolver(MovieSchema),
   });
@@ -73,7 +73,7 @@ const MovieForm = () => {
         >
           Rate
         </Input>
-        <Button type="submit" variant="primary">
+        <Button type="submit" variant="primary" disabled={!isValid}>
           Save
         </Button>
       </Form>
