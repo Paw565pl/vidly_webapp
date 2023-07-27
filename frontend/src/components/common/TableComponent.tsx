@@ -4,6 +4,7 @@ import {
   AiOutlineSortAscending,
   AiOutlineSortDescending,
 } from "react-icons/ai";
+import { Link } from "react-router-dom";
 import resolveObjectPath from "../../utils/resolveObjectPath";
 
 interface Header {
@@ -22,7 +23,7 @@ interface Props {
 }
 
 const TableComponent = ({ headers, data }: Props) => {
-  const [sorting, setSorting] = useState({ value: "", order: "" });
+  const [sorting, setSorting] = useState({ value: "title", order: "asc" });
 
   const handleSort = (sortValue: string) =>
     setSorting((prevSorting) =>
@@ -81,7 +82,13 @@ const TableComponent = ({ headers, data }: Props) => {
           <tr key={rowIndex}>
             {headers.map((header, itemIndex) => (
               <td key={itemIndex}>
-                {renderCell(sortedData[rowIndex], header)}
+                {header.value === "title" ? (
+                  <Link to={`/movie/${sortedData[rowIndex]._id}`}>
+                    {renderCell(sortedData[rowIndex], header)}
+                  </Link>
+                ) : (
+                  renderCell(sortedData[rowIndex], header)
+                )}
               </td>
             ))}
           </tr>

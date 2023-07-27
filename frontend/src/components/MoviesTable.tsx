@@ -1,5 +1,4 @@
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { Movie } from "../services/fakeMovieService";
 import LikeButton from "./common/LikeButton";
 import TableComponent from "./common/TableComponent";
@@ -22,14 +21,7 @@ const MoviesTable = ({ movies }: Props) => {
     },
   ];
 
-  const data = movies.map((movie) => {
-    return {
-      ...movie,
-      title: <Link to={`/movie/${movie._id}`}>{movie.title}</Link>,
-    };
-  });
-
-  return <TableComponent headers={headers} data={data}></TableComponent>;
+  return <TableComponent headers={headers} data={movies}></TableComponent>;
 };
 
 export default MoviesTable;
