@@ -73,7 +73,7 @@ const MovieForm = () => {
         >
           Rate
         </Input>
-        <Button type="submit" variant="primary" disabled={!isValid}>
+        <Button type="submit" variant="primary">
           Save
         </Button>
       </Form>

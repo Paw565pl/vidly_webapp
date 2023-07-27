@@ -14,7 +14,7 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const submitAction = (data: FieldValues) => {
@@ -41,7 +41,7 @@ const LoginForm = () => {
         >
           Password
         </Input>
-        <Button variant="primary" type="submit" disabled={!isValid}>
+        <Button variant="primary" type="submit">
           Submit
         </Button>
       </Form>

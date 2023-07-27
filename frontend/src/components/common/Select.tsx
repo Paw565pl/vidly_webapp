@@ -43,7 +43,7 @@ const Select = ({
         ))}
       </Form.Select>
       {errorMessage && (
-        <Form.Text className="text-danger">{errorMessage}</Form.Text>
+        <Form.Text className="text-danger text-sm">{errorMessage}</Form.Text>
       )}
     </Form.Group>
   );
