@@ -6,6 +6,7 @@ import { getMovies } from "../services/fakeMovieService";
 import paginate from "../utils/paginate";
 import MoviesHeading from "./MoviesHeading";
 import MoviesTable from "./MoviesTable";
+import Input from "./common/Input";
 import ListGroupComponent from "./common/ListGroupComponent";
 import PaginationComponent from "./common/PaginationComponent";
 
@@ -19,8 +20,13 @@ const Movies = () => {
 
   const [activePage, setActivePage] = useState(1);
   const [selectedGenreId, setSelectedGenreId] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredMovies = selectedGenreId
+  const filteredMovies = searchQuery
+    ? allMovies.filter((movie) =>
+        movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : selectedGenreId
     ? allMovies.filter((movie) => movie.genre._id === selectedGenreId)
     : allMovies;
 
@@ -29,6 +35,12 @@ const Movies = () => {
   const handleGenreSelect = (genreId: string) => {
     setActivePage(1);
     setSelectedGenreId(genreId);
+  };
+
+  const handleSearch = (input: string) => {
+    setActivePage(1);
+    setSelectedGenreId("");
+    setSearchQuery(input);
   };
 
   if (filteredMovies.length === 0)
@@ -46,13 +58,14 @@ const Movies = () => {
         ></ListGroupComponent>
       </Col>
       <Col>
-        <Button
-          variant="primary"
-          className="mb-3"
-          onClick={() => navigate("/movie/new")}
-        >
+        <Button variant="primary" onClick={() => navigate("/movie/new")}>
           New Movie
         </Button>
+        <Input
+          id="movieSearch"
+          placeholder="Search..."
+          onChange={(value) => handleSearch(value)}
+        ></Input>
         <MoviesHeading moviesCount={filteredMovies.length}></MoviesHeading>
         <MoviesTable movies={paginatedMovies}></MoviesTable>
         <PaginationComponent

@@ -4,12 +4,14 @@ import { UseFormRegisterReturn } from "react-hook-form";
 
 interface Props {
   id: string;
-  register: UseFormRegisterReturn;
-  children: ReactNode;
+  register?: UseFormRegisterReturn;
+  children?: ReactNode;
   errorMessage?: string;
   type?: HTMLInputTypeAttribute;
   value?: string | number;
   autofocus?: boolean;
+  placeholder?: string;
+  onChange?: (value: string) => void;
 }
 
 const Input = ({
@@ -20,6 +22,8 @@ const Input = ({
   type,
   value,
   autofocus,
+  placeholder,
+  onChange,
 }: Props) => {
   return (
     <Form.Group className="mb-3" controlId={id}>
@@ -29,6 +33,8 @@ const Input = ({
         type={type || "text"}
         autoFocus={autofocus}
         value={value}
+        placeholder={placeholder}
+        onChange={(e) => onChange && onChange(e.target.value)}
       />
       {errorMessage && (
         <Form.Text className="text-danger">{errorMessage}</Form.Text>

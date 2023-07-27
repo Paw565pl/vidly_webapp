@@ -11,8 +11,8 @@ interface Item {
 interface Props {
   id: string;
   options: Item[];
-  register: UseFormRegisterReturn;
-  children: ReactNode;
+  register?: UseFormRegisterReturn;
+  children?: ReactNode;
   errorMessage?: string;
   defaultValue?: string | number;
   autofocus?: boolean;
