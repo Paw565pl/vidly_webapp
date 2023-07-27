@@ -5,6 +5,7 @@ import LoginForm from "./components/LoginForm";
 import MovieForm from "./components/MovieForm";
 import Movies from "./components/Movies";
 import NotFound from "./components/NotFound";
+import RegisterForm from "./components/RegisterForm";
 import Rentals from "./components/Rentals";
 
 const router = createBrowserRouter([
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { path: "movies", element: <Movies /> },
       { path: "movie/:id", element: <MovieForm /> },
       { path: "login", element: <LoginForm /> },
+      { path: "register", element: <RegisterForm /> },
       { path: "customers", element: <Customers /> },
       { path: "rentals", element: <Rentals /> },
       { path: "not-found", element: <NotFound /> },
