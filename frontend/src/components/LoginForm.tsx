@@ -6,14 +6,16 @@ import { z } from "zod";
 import UserSchema from "../schemas/UserSchema";
 import Input from "./common/Input";
 
-type FormData = z.infer<typeof UserSchema>;
+const schema = UserSchema.pick({ username: true, password: true });
+
+type FormData = z.infer<typeof schema>;
 
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<FormData>({ resolver: zodResolver(UserSchema) });
+  } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const submitAction = (data: FieldValues) => {
     console.log(data);
