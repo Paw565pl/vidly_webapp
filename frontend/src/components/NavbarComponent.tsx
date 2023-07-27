@@ -5,7 +5,7 @@ const NavbarComponent = () => {
   return (
     <Navbar bg="primary" data-bs-theme="dark" className="mb-5">
       <Container className="px-3">
-        <Navbar.Brand className="me-1">
+        <Navbar.Brand>
           <Link to={""}>Vidly</Link>
         </Navbar.Brand>
         <Nav className="me-auto">
