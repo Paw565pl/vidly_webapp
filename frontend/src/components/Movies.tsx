@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { getGenres } from "../services/fakeGenreService";
 import { getMovies } from "../services/fakeMovieService";
 import paginate from "../utils/paginate";
@@ -7,8 +7,11 @@ import MoviesHeading from "./MoviesHeading";
 import MoviesTable from "./MoviesTable";
 import ListGroupComponent from "./common/ListGroupComponent";
 import PaginationComponent from "./common/PaginationComponent";
+import { useNavigate } from "react-router-dom";
 
 const Movies = () => {
+  const navigate = useNavigate()
+
   const allMovies = getMovies();
   const genres = [{ _id: "", name: "All genres" }, ...getGenres()];
 
@@ -43,6 +46,9 @@ const Movies = () => {
         ></ListGroupComponent>
       </Col>
       <Col>
+        <Button variant="primary" className="mb-3" onClick={() => navigate("/movie/new")}>
+          New Movie
+        </Button>
         <MoviesHeading moviesCount={filteredMovies.length}></MoviesHeading>
         <MoviesTable movies={paginatedMovies}></MoviesTable>
         <PaginationComponent
