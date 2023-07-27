@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import MovieSchema from "../schemas/MovieSchema";
 import { getGenres } from "../services/fakeGenreService";
-import { getMovies } from "../services/fakeMovieService";
+import { Movie, getMovies, saveMovie } from "../services/fakeMovieService";
 import Input from "./common/Input";
 import Select from "./common/Select";
 
@@ -24,14 +24,17 @@ const MovieForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(MovieSchema),
   });
 
   const submitAction = (data: FieldValues) => {
-    console.log(data);
-    // navigate("/")
+    const genre = genres.find((genre) => genre._id === data.genre);
+    const res = { ...data, genre };
+
+    saveMovie(res as Movie);
+    navigate("/");
   };
 
   return (
@@ -67,9 +70,11 @@ const MovieForm = () => {
         <Input
           type="number"
           id="rate"
-          register={register("rate", { valueAsNumber: true })}
+          register={register("dailyRentalRate", { valueAsNumber: true })}
           value={currMovie?.dailyRentalRate}
-          errorMessage={errors.rate && errors.rate.message}
+          errorMessage={
+            errors.dailyRentalRate && errors.dailyRentalRate.message
+          }
         >
           Rate
         </Input>

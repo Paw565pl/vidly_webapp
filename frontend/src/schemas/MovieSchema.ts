@@ -7,7 +7,7 @@ const MovieSchema = z.object({
     .number({ invalid_type_error: "this field is required" })
     .min(0, "must be greater than 0")
     .max(100, "must be less than 100"),
-  rate: z
+  dailyRentalRate: z
     .number({ invalid_type_error: "this field is required" })
     .min(0, "must be greater than 0")
     .max(10, "must be less than 10"),
