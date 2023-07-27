@@ -69,7 +69,7 @@ const TableComponent = ({ headers, data }: Props) => {
             <th
               key={i}
               onClick={() => handleSort(header.value)}
-              style={{ cursor: "pointer" }}
+              style={header.label ? { cursor: "pointer" } : {}}
             >
               {header.label}
               {header.label && renderSortIcon(header)}
