@@ -3,17 +3,17 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
-import User from "../schemas/User";
+import UserSchema from "../schemas/UserSchema";
 import Input from "./common/Input";
 
-type FormData = z.infer<typeof User>;
+type FormData = z.infer<typeof UserSchema>;
 
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(User) });
+  } = useForm<FormData>({ resolver: zodResolver(UserSchema) });
 
   const submitAction = (data: FieldValues) => {
     console.log(data);

@@ -2,10 +2,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Form } from "react-bootstrap";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
-import User from "../schemas/User";
+import UserSchema from "../schemas/UserSchema";
 import Input from "./common/Input";
 
-type FormData = z.infer<typeof User>;
+type FormData = z.infer<typeof UserSchema>;
 
 const RegisterForm = () => {
   const {
@@ -13,7 +13,7 @@ const RegisterForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(User),
+    resolver: zodResolver(UserSchema),
   });
 
   const submitAction = (data: FieldValues) => {
