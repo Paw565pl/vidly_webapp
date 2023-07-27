@@ -50,7 +50,7 @@ const MovieForm = () => {
           id="genre"
           options={genres}
           register={register("genre")}
-          defaultValue={currMovie?.genre.name}
+          defaultValue={currMovie?.genre._id}
           errorMessage={errors.genre && errors.genre.message}
         >
           Genre
