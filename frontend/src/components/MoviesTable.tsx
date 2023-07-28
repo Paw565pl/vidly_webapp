@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import {
   AiOutlineSortAscending,
   AiOutlineSortDescending,
@@ -8,22 +8,30 @@ import { Link } from "react-router-dom";
 import Movie from "../entities/Movie";
 import createSlug from "../utils/createSlug";
 import resolveObjectPath from "../utils/resolveObjectPath";
+import LikeButton from "./common/LikeButton";
 
 interface Header {
   value: string;
   label: ReactNode;
-  content?: ReactNode;
 }
 
 interface Props {
-  headers: Header[];
   movies: Movie[];
   sorting: { value: string; order: "asc" | "dsc" };
   onSort: (sortValue: string) => void;
+  onDelete: (movieId: string) => void;
 }
 
-const MoviesTable = ({ headers, movies, sorting, onSort }: Props) => {
+const MoviesTable = ({ movies, sorting, onSort, onDelete }: Props) => {
+  const headers = [
+    { value: "title", label: "Title" },
+    { value: "genre.name", label: "Genre" },
+    { value: "numberInStock", label: "Stock" },
+    { value: "dailyRentalRate", label: "Rate" },
+  ];
+
   const renderSortIcon = (header: Header) => {
+    // FIXME: jumping sort icon
     if (sorting.value !== header.value) return null;
 
     switch (sorting.order) {
@@ -39,7 +47,7 @@ const MoviesTable = ({ headers, movies, sorting, onSort }: Props) => {
   };
 
   const renderCell = (item: Movie, header: Header) =>
-    (resolveObjectPath(item, header.value) as ReactNode) || header.content;
+    resolveObjectPath(item, header.value) as ReactNode;
 
   return (
     <Table striped>
@@ -71,6 +79,18 @@ const MoviesTable = ({ headers, movies, sorting, onSort }: Props) => {
                 )}
               </td>
             ))}
+            <td>
+              <LikeButton />
+            </td>
+            <td>
+              <Button
+                variant={"danger"}
+                size="sm"
+                onClick={() => onDelete(movies[rowIndex]._id)}
+              >
+                Delete
+              </Button>
+            </td>
           </tr>
         ))}
       </tbody>

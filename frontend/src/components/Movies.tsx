@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import useDeleteMovie from "../hooks/useDeleteMovie";
 import useGenres from "../hooks/useGenres";
 import useMovies from "../hooks/useMovies";
 import paginate from "../utils/paginate";
@@ -8,7 +9,6 @@ import resolveObjectPath from "../utils/resolveObjectPath";
 import MoviesHeading from "./MoviesHeading";
 import MoviesTable from "./MoviesTable";
 import Input from "./common/Input";
-import LikeButton from "./common/LikeButton";
 import ListGroupComponent from "./common/ListGroupComponent";
 import PaginationComponent from "./common/PaginationComponent";
 
@@ -27,6 +27,8 @@ interface MovieQuery {
 const Movies = () => {
   const { data: fetchedMovies, isLoading } = useMovies();
   const { data: fetchedGenres } = useGenres();
+
+  const { mutate: deleteMovieById, error: deleteError } = useDeleteMovie();
 
   const navigate = useNavigate();
 
@@ -95,19 +97,6 @@ const Movies = () => {
     });
   };
 
-  const headers = [
-    { value: "title", label: "Title" },
-    { value: "genre.name", label: "Genre" },
-    { value: "numberInStock", label: "Stock" },
-    { value: "dailyRentalRate", label: "Rate" },
-    { value: "", label: "", content: <LikeButton /> },
-    {
-      value: "",
-      label: "",
-      content: <Button variant={"danger"}>Delete</Button>,
-    },
-  ];
-
   const paginatedMovies = paginate(sortedMovies || [], activePage, pageSize);
 
   return (
@@ -130,11 +119,13 @@ const Movies = () => {
         ></Input>
         <MoviesHeading moviesCount={sortedMovies?.length || 0}></MoviesHeading>
         <MoviesTable
-          headers={headers}
           movies={paginatedMovies}
           sorting={{ value: sortValue, order: sortOrder }}
           onSort={(sortValue) => handleSort(sortValue)}
+          onDelete={(movieId) => deleteMovieById(movieId)}
         ></MoviesTable>
+        {deleteError && <p>{deleteError.message}</p>}
+        {/* TODO: react toastify danger */}
         <PaginationComponent
           itemsCount={sortedMovies?.length || 0}
           pageSize={pageSize}
