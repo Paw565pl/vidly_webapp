@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3900",
+  baseURL: "http://localhost:3900/api",
 });
 
 class ApiClient<T> {
@@ -13,9 +13,9 @@ class ApiClient<T> {
 
   getAll = (config?: AxiosRequestConfig) =>
     axiosInstance
-      .get<T>(this.endpoint, config)
+      .get<T[]>(this.endpoint, config)
       .then(({ data }) => data)
-      .catch((err) => console.error(err));
+      .catch((err) => err);
 }
 
 export default ApiClient;

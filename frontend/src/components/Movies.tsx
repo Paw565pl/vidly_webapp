@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { getGenres } from "../services/fakeGenreService";
+import useGenres from "../hooks/useGenres";
 import { getMovies } from "../services/fakeMovieService";
 import paginate from "../utils/paginate";
 import resolveObjectPath from "../utils/resolveObjectPath";
@@ -26,14 +26,16 @@ interface MovieQuery {
 
 const Movies = () => {
   const allMovies = getMovies();
+  const { data: fetchedGenres } = useGenres();
 
   if (allMovies.length === 0)
     return <h6>There are no movies in the database.</h6>;
 
   const navigate = useNavigate();
 
-  const genres = [{ _id: "", name: "All genres" }, ...getGenres()];
-  const pageSize = 4;
+  const genres = [{ _id: "", name: "All genres" }, ...(fetchedGenres || [])];
+
+  const pageSize = 4; // TODO: dropdown to pick page size
 
   const [movieQuery, setMovieQuery] = useState<MovieQuery>({
     activePage: 1,
