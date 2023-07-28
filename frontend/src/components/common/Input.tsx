@@ -8,7 +8,7 @@ interface Props {
   children?: ReactNode;
   errorMessage?: string;
   type?: HTMLInputTypeAttribute;
-  value?: string | number;
+  defaultValue?: string | number;
   autofocus?: boolean;
   placeholder?: string;
   onChange?: (value: string) => void;
@@ -20,7 +20,7 @@ const Input = ({
   children,
   errorMessage,
   type,
-  value,
+  defaultValue,
   autofocus,
   placeholder,
   onChange,
@@ -32,7 +32,7 @@ const Input = ({
         {...register}
         type={type || "text"}
         autoFocus={autofocus}
-        value={value}
+        defaultValue={defaultValue}
         placeholder={placeholder}
         onChange={(e) => onChange && onChange(e.target.value)}
       />
