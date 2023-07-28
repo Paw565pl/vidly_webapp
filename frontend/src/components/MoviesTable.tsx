@@ -5,7 +5,7 @@ import {
   AiOutlineSortDescending,
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { Movie } from "../services/fakeMovieService";
+import Movie from "../entities/Movie";
 import createSlug from "../utils/createSlug";
 import resolveObjectPath from "../utils/resolveObjectPath";
 

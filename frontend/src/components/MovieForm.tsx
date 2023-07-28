@@ -3,9 +3,9 @@ import { Button, Form } from "react-bootstrap";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
+import useGenres from "../hooks/useGenres";
+import useMovies from "../hooks/useMovies";
 import MovieSchema from "../schemas/MovieSchema";
-import { getGenres } from "../services/fakeGenreService";
-import { Movie, getMovies, saveMovie } from "../services/fakeMovieService";
 import createSlug from "../utils/createSlug";
 import Input from "./common/Input";
 import Select from "./common/Select";
@@ -13,15 +13,10 @@ import Select from "./common/Select";
 type FormData = z.infer<typeof MovieSchema>;
 
 const MovieForm = () => {
+  const { data: movies } = useMovies();
+  const { data: genres } = useGenres();
+
   const { slug } = useParams();
-
-  const currMovie = getMovies().find(
-    (movie) => createSlug(movie.title) === slug
-  );
-  if (!currMovie && slug !== "new") throw new Error("Movie not found");
-
-  const genres = getGenres();
-
   const navigate = useNavigate();
 
   const {
@@ -32,11 +27,15 @@ const MovieForm = () => {
     resolver: zodResolver(MovieSchema),
   });
 
+  const currMovie = movies?.find((movie) => createSlug(movie.title) === slug);
+
+  if (!currMovie && slug !== "new") throw new Error("Movie not found");
+
   const submitAction = (data: FieldValues) => {
-    const genre = genres.find((genre) => genre._id === data.genre);
+    const genre = genres?.find((genre) => genre._id === data.genre);
     const res = { ...data, genre };
 
-    saveMovie(res as Movie);
+    // TODO: saveMovie
     navigate("/");
   };
 
@@ -54,7 +53,7 @@ const MovieForm = () => {
         </Input>
         <Select
           id="genre"
-          options={genres}
+          options={genres || []}
           register={register("genre")}
           defaultValue={currMovie?.genre._id}
           errorMessage={errors.genre && errors.genre.message}

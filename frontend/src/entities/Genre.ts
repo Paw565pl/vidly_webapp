@@ -1,6 +1,6 @@
 interface Genre {
   [key: string]: string;
-  id: string;
+  _id: string;
   name: string;
 }
 

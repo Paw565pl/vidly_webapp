@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import useGenres from "../hooks/useGenres";
-import { getMovies } from "../services/fakeMovieService";
+import useMovies from "../hooks/useMovies";
 import paginate from "../utils/paginate";
 import resolveObjectPath from "../utils/resolveObjectPath";
 import MoviesHeading from "./MoviesHeading";
@@ -25,17 +25,10 @@ interface MovieQuery {
 }
 
 const Movies = () => {
-  const allMovies = getMovies();
+  const { data: fetchedMovies, isLoading } = useMovies();
   const { data: fetchedGenres } = useGenres();
 
-  if (allMovies.length === 0)
-    return <h6>There are no movies in the database.</h6>;
-
   const navigate = useNavigate();
-
-  const genres = [{ _id: "", name: "All genres" }, ...(fetchedGenres || [])];
-
-  const pageSize = 4; // TODO: dropdown to pick page size
 
   const [movieQuery, setMovieQuery] = useState<MovieQuery>({
     activePage: 1,
@@ -43,6 +36,15 @@ const Movies = () => {
     genreId: "",
     sortObject: { value: "title", order: "asc" },
   });
+
+  if (isLoading) return <p>Loading...</p>;
+
+  if (fetchedMovies?.length === 0)
+    return <h6>There are no movies in the database.</h6>;
+
+  const genres = [{ _id: "", name: "All genres" }, ...(fetchedGenres || [])];
+
+  const pageSize = 4; // TODO: dropdown to pick page size
 
   const {
     activePage,
@@ -52,15 +54,15 @@ const Movies = () => {
   } = movieQuery;
 
   const filteredMovies = searchInput
-    ? allMovies.filter((movie) =>
+    ? fetchedMovies?.filter((movie) =>
         movie.title.toLowerCase().includes(searchInput.toLowerCase())
       )
     : genreId
-    ? allMovies.filter((movie) => movie.genre._id === genreId)
-    : allMovies;
+    ? fetchedMovies?.filter((movie) => movie.genre._id === genreId)
+    : fetchedMovies;
 
   const sortedMovies = sortValue
-    ? filteredMovies.sort((movieA, movieB) => {
+    ? filteredMovies?.sort((movieA, movieB) => {
         const sortNumber = sortOrder === "asc" ? 1 : -1;
 
         return resolveObjectPath(movieA, sortValue) <
@@ -106,7 +108,7 @@ const Movies = () => {
     },
   ];
 
-  const paginatedMovies = paginate(sortedMovies, activePage, pageSize);
+  const paginatedMovies = paginate(sortedMovies || [], activePage, pageSize);
 
   return (
     <Row>
@@ -126,7 +128,7 @@ const Movies = () => {
           placeholder="Search..."
           onChange={(value) => handleSearch(value)}
         ></Input>
-        <MoviesHeading moviesCount={sortedMovies.length}></MoviesHeading>
+        <MoviesHeading moviesCount={sortedMovies?.length || 0}></MoviesHeading>
         <MoviesTable
           headers={headers}
           movies={paginatedMovies}
@@ -134,7 +136,7 @@ const Movies = () => {
           onSort={(sortValue) => handleSort(sortValue)}
         ></MoviesTable>
         <PaginationComponent
-          itemsCount={sortedMovies.length}
+          itemsCount={sortedMovies?.length || 0}
           pageSize={pageSize}
           activePage={activePage}
           onPageChange={handlePageChange}
