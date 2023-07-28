@@ -12,6 +12,18 @@ import LikeButton from "./common/LikeButton";
 import ListGroupComponent from "./common/ListGroupComponent";
 import PaginationComponent from "./common/PaginationComponent";
 
+interface SortObject {
+  value: string;
+  order: "asc" | "dsc";
+}
+
+interface MovieQuery {
+  activePage: number;
+  searchInput: string;
+  genreId: string;
+  sortObject: SortObject;
+}
+
 const Movies = () => {
   const allMovies = getMovies();
 
@@ -23,52 +35,61 @@ const Movies = () => {
   const genres = [{ _id: "", name: "All genres" }, ...getGenres()];
   const pageSize = 4;
 
-  const [activePage, setActivePage] = useState(1);
-  const [filteringGenreId, setFilteringGenreId] = useState("");
-  const [sorting, setSorting] = useState<{
-    value: string;
-    order: "asc" | "dsc";
-  }>({ value: "title", order: "asc" });
-  const [searchQuery, setSearchQuery] = useState("");
+  const [movieQuery, setMovieQuery] = useState<MovieQuery>({
+    activePage: 1,
+    searchInput: "",
+    genreId: "",
+    sortObject: { value: "title", order: "asc" },
+  });
 
-  const filteredMovies = searchQuery
+  const {
+    activePage,
+    searchInput,
+    genreId,
+    sortObject: { value: sortValue, order: sortOrder },
+  } = movieQuery;
+
+  const filteredMovies = searchInput
     ? allMovies.filter((movie) =>
-        movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+        movie.title.toLowerCase().includes(searchInput.toLowerCase())
       )
-    : filteringGenreId
-    ? allMovies.filter((movie) => movie.genre._id === filteringGenreId)
+    : genreId
+    ? allMovies.filter((movie) => movie.genre._id === genreId)
     : allMovies;
 
-  const sortedMovies = sorting.value
+  const sortedMovies = sortValue
     ? filteredMovies.sort((movieA, movieB) => {
-        const sortOrder = sorting.order === "asc" ? 1 : -1;
+        const sortNumber = sortOrder === "asc" ? 1 : -1;
 
-        return resolveObjectPath(movieA, sorting.value) <
-          resolveObjectPath(movieB, sorting.value)
-          ? -sortOrder
-          : sortOrder;
+        return resolveObjectPath(movieA, sortValue) <
+          resolveObjectPath(movieB, sortValue)
+          ? -sortNumber
+          : sortNumber;
       })
     : filteredMovies;
 
-  const handlePageChange = (page: number) => setActivePage(page);
+  const handlePageChange = (page: number) =>
+    setMovieQuery({ ...movieQuery, activePage: page });
 
-  const handleGenreSelect = (genreId: string) => {
-    setActivePage(1);
-    setFilteringGenreId(genreId);
+  const handleGenreSelect = (genreId: string) =>
+    setMovieQuery({ ...movieQuery, activePage: 1, genreId });
+
+  const handleSearch = (searchInput: string) =>
+    setMovieQuery({ ...movieQuery, activePage: 1, genreId: "", searchInput });
+
+  const handleSort = (newSortValue: string) => {
+    const sortObject: SortObject =
+      newSortValue === sortValue
+        ? sortOrder === "asc"
+          ? { value: newSortValue, order: "dsc" }
+          : { value: newSortValue, order: "asc" }
+        : { value: newSortValue, order: sortOrder };
+
+    setMovieQuery({
+      ...movieQuery,
+      sortObject,
+    });
   };
-
-  const handleSearch = (input: string) => {
-    setActivePage(1);
-    setFilteringGenreId("");
-    setSearchQuery(input);
-  };
-
-  const handleSort = (sortValue: string) =>
-    setSorting((prevSorting) =>
-      prevSorting.order === "asc"
-        ? { value: sortValue, order: "dsc" }
-        : { value: sortValue, order: "asc" }
-    );
 
   const headers = [
     { value: "title", label: "Title" },
@@ -90,7 +111,7 @@ const Movies = () => {
       <Col xs={12} md={3}>
         <ListGroupComponent
           items={genres}
-          selectedItemId={filteringGenreId}
+          selectedItemId={genreId}
           onItemSelect={handleGenreSelect}
         ></ListGroupComponent>
       </Col>
@@ -107,7 +128,7 @@ const Movies = () => {
         <MoviesTable
           headers={headers}
           movies={paginatedMovies}
-          sorting={sorting}
+          sorting={{ value: sortValue, order: sortOrder }}
           onSort={(sortValue) => handleSort(sortValue)}
         ></MoviesTable>
         <PaginationComponent
