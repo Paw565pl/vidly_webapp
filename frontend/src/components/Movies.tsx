@@ -25,7 +25,11 @@ interface MovieQuery {
 }
 
 const Movies = () => {
-  const { data: fetchedMovies, isLoading } = useMovies();
+  const {
+    data: fetchedMovies,
+    isLoading,
+    error: fetchingMoviesError,
+  } = useMovies();
   const { data: fetchedGenres } = useGenres();
 
   const { mutate: deleteMovieById, error: deleteError } = useDeleteMovie();
@@ -38,6 +42,8 @@ const Movies = () => {
     genreId: "",
     sortObject: { value: "title", order: "asc" },
   });
+
+  if (fetchingMoviesError) throw new Error();
 
   if (isLoading) return <p>Loading...</p>;
 
