@@ -6,16 +6,19 @@ import { z } from "zod";
 import MovieSchema from "../schemas/MovieSchema";
 import { getGenres } from "../services/fakeGenreService";
 import { Movie, getMovies, saveMovie } from "../services/fakeMovieService";
+import createSlug from "../utils/createSlug";
 import Input from "./common/Input";
 import Select from "./common/Select";
 
 type FormData = z.infer<typeof MovieSchema>;
 
 const MovieForm = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
 
-  const currMovie = getMovies().find((movie) => movie._id === id);
-  if (!currMovie && id !== "new") throw new Error("Movie not found");
+  const currMovie = getMovies().find(
+    (movie) => createSlug(movie.title) === slug
+  );
+  if (!currMovie && slug !== "new") throw new Error("Movie not found");
 
   const genres = getGenres();
 

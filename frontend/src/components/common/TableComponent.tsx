@@ -1,10 +1,11 @@
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { Table } from "react-bootstrap";
 import {
   AiOutlineSortAscending,
   AiOutlineSortDescending,
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import createSlug from "../../utils/createSlug";
 import resolveObjectPath from "../../utils/resolveObjectPath";
 
 interface Header {
@@ -25,7 +26,6 @@ interface Props {
 }
 
 const TableComponent = ({ headers, data, sorting, onSort }: Props) => {
-
   const renderSortIcon = (header: Header) => {
     if (sorting.value !== header.value) return null;
 
@@ -66,7 +66,7 @@ const TableComponent = ({ headers, data, sorting, onSort }: Props) => {
             {headers.map((header, itemIndex) => (
               <td key={itemIndex}>
                 {header.value === "title" ? (
-                  <Link to={`/movie/${data[rowIndex]._id}`}>
+                  <Link to={`/movie/${createSlug(data[rowIndex].title)}`}>
                     {renderCell(data[rowIndex], header)}
                   </Link>
                 ) : (

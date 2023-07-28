@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to={"movies"} /> },
       { path: "movies", element: <Movies /> },
-      { path: "movie/:id", element: <MovieForm /> },
+      { path: "movie/:slug", element: <MovieForm /> },
       { path: "login", element: <LoginForm /> },
       { path: "register", element: <RegisterForm /> },
       { path: "customers", element: <Customers /> },
