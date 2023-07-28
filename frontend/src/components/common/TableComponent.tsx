@@ -20,17 +20,11 @@ export interface Item {
 interface Props {
   headers: Header[];
   data: Item[];
+  sorting: { value: string; order: "asc" | "dsc" };
+  onSort: (sortValue: string) => void;
 }
 
-const TableComponent = ({ headers, data }: Props) => {
-  const [sorting, setSorting] = useState({ value: "title", order: "asc" });
-
-  const handleSort = (sortValue: string) =>
-    setSorting((prevSorting) =>
-      prevSorting.order === "asc"
-        ? { value: sortValue, order: "dsc" }
-        : { value: sortValue, order: "asc" }
-    );
+const TableComponent = ({ headers, data, sorting, onSort }: Props) => {
 
   const renderSortIcon = (header: Header) => {
     if (sorting.value !== header.value) return null;
@@ -50,17 +44,6 @@ const TableComponent = ({ headers, data }: Props) => {
   const renderCell = (item: Item, header: Header) =>
     (resolveObjectPath(item, header.value) as ReactNode) || header.content;
 
-  const sortedData = sorting.value
-    ? data.sort((dataA, dataB) => {
-        const sortOrder = sorting.order === "asc" ? 1 : -1;
-
-        return resolveObjectPath(dataA, sorting.value) <
-          resolveObjectPath(dataB, sorting.value)
-          ? -sortOrder
-          : sortOrder;
-      })
-    : data;
-
   return (
     <Table striped>
       <thead>
@@ -68,7 +51,7 @@ const TableComponent = ({ headers, data }: Props) => {
           {headers.map((header, i) => (
             <th
               key={i}
-              onClick={() => handleSort(header.value)}
+              onClick={() => onSort(header.value)}
               style={header.label ? { cursor: "pointer" } : {}}
             >
               {header.label}
@@ -78,16 +61,16 @@ const TableComponent = ({ headers, data }: Props) => {
         </tr>
       </thead>
       <tbody>
-        {sortedData.map((_, rowIndex) => (
+        {data.map((_, rowIndex) => (
           <tr key={rowIndex}>
             {headers.map((header, itemIndex) => (
               <td key={itemIndex}>
                 {header.value === "title" ? (
-                  <Link to={`/movie/${sortedData[rowIndex]._id}`}>
-                    {renderCell(sortedData[rowIndex], header)}
+                  <Link to={`/movie/${data[rowIndex]._id}`}>
+                    {renderCell(data[rowIndex], header)}
                   </Link>
                 ) : (
-                  renderCell(sortedData[rowIndex], header)
+                  renderCell(data[rowIndex], header)
                 )}
               </td>
             ))}

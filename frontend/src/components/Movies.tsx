@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getGenres } from "../services/fakeGenreService";
 import { getMovies } from "../services/fakeMovieService";
 import paginate from "../utils/paginate";
+import resolveObjectPath from "../utils/resolveObjectPath";
 import MoviesHeading from "./MoviesHeading";
 import MoviesTable from "./MoviesTable";
 import Input from "./common/Input";
@@ -20,6 +21,7 @@ const Movies = () => {
 
   const [activePage, setActivePage] = useState(1);
   const [selectedGenreId, setSelectedGenreId] = useState("");
+  const [sorting, setSorting] = useState<{ value: string; order: "asc" | "dsc" }>({ value: "title", order: "asc" });
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredMovies = searchQuery
@@ -29,6 +31,17 @@ const Movies = () => {
     : selectedGenreId
     ? allMovies.filter((movie) => movie.genre._id === selectedGenreId)
     : allMovies;
+
+  const sortedMovies = sorting.value
+    ? filteredMovies.sort((movieA, movieB) => {
+        const sortOrder = sorting.order === "asc" ? 1 : -1;
+
+        return resolveObjectPath(movieA, sorting.value) <
+          resolveObjectPath(movieB, sorting.value)
+          ? -sortOrder
+          : sortOrder;
+      })
+    : filteredMovies;
 
   const handlePageChange = (page: number) => setActivePage(page);
 
@@ -43,10 +56,17 @@ const Movies = () => {
     setSearchQuery(input);
   };
 
+  const handleSort = (sortValue: string) =>
+    setSorting((prevSorting) =>
+      prevSorting.order === "asc"
+        ? { value: sortValue, order: "dsc" }
+        : { value: sortValue, order: "asc" }
+    );
+
   if (filteredMovies.length === 0)
     return <h6>There are no movies in the database.</h6>;
-
-  const paginatedMovies = paginate(filteredMovies, activePage, pageSize);
+  // TODO: fix sorting
+  const paginatedMovies = paginate(sortedMovies, activePage, pageSize);
 
   return (
     <Row>
@@ -66,10 +86,10 @@ const Movies = () => {
           placeholder="Search..."
           onChange={(value) => handleSearch(value)}
         ></Input>
-        <MoviesHeading moviesCount={filteredMovies.length}></MoviesHeading>
-        <MoviesTable movies={paginatedMovies}></MoviesTable>
+        <MoviesHeading moviesCount={sortedMovies.length}></MoviesHeading>
+        <MoviesTable movies={paginatedMovies} sorting={sorting} onSort={(sortValue) => handleSort(sortValue)}></MoviesTable>
         <PaginationComponent
-          itemsCount={filteredMovies.length}
+          itemsCount={sortedMovies.length}
           pageSize={pageSize}
           activePage={activePage}
           onPageChange={handlePageChange}

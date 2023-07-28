@@ -5,9 +5,11 @@ import TableComponent from "./common/TableComponent";
 
 interface Props {
   movies: Movie[];
+  sorting: { value: string; order: "asc" | "dsc" };
+  onSort: (sortValue: string) => void;
 }
 
-const MoviesTable = ({ movies }: Props) => {
+const MoviesTable = ({ movies, sorting, onSort }: Props) => {
   const headers = [
     { value: "title", label: "Title" },
     { value: "genre.name", label: "Genre" },
@@ -21,7 +23,14 @@ const MoviesTable = ({ movies }: Props) => {
     },
   ];
 
-  return <TableComponent headers={headers} data={movies}></TableComponent>;
+  return (
+    <TableComponent
+      headers={headers}
+      data={movies}
+      sorting={sorting}
+      onSort={(sortValue) => onSort(sortValue)}
+    ></TableComponent>
+  );
 };
 
 export default MoviesTable;
