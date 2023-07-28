@@ -8,28 +8,35 @@ import resolveObjectPath from "../utils/resolveObjectPath";
 import MoviesHeading from "./MoviesHeading";
 import MoviesTable from "./MoviesTable";
 import Input from "./common/Input";
+import LikeButton from "./common/LikeButton";
 import ListGroupComponent from "./common/ListGroupComponent";
 import PaginationComponent from "./common/PaginationComponent";
 
 const Movies = () => {
+  const allMovies = getMovies();
+
+  if (allMovies.length === 0)
+    return <h6>There are no movies in the database.</h6>;
+
   const navigate = useNavigate();
 
-  const allMovies = getMovies();
   const genres = [{ _id: "", name: "All genres" }, ...getGenres()];
-
   const pageSize = 4;
 
   const [activePage, setActivePage] = useState(1);
-  const [selectedGenreId, setSelectedGenreId] = useState("");
-  const [sorting, setSorting] = useState<{ value: string; order: "asc" | "dsc" }>({ value: "title", order: "asc" });
+  const [filteringGenreId, setFilteringGenreId] = useState("");
+  const [sorting, setSorting] = useState<{
+    value: string;
+    order: "asc" | "dsc";
+  }>({ value: "title", order: "asc" });
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredMovies = searchQuery
     ? allMovies.filter((movie) =>
         movie.title.toLowerCase().includes(searchQuery.toLowerCase())
       )
-    : selectedGenreId
-    ? allMovies.filter((movie) => movie.genre._id === selectedGenreId)
+    : filteringGenreId
+    ? allMovies.filter((movie) => movie.genre._id === filteringGenreId)
     : allMovies;
 
   const sortedMovies = sorting.value
@@ -47,12 +54,12 @@ const Movies = () => {
 
   const handleGenreSelect = (genreId: string) => {
     setActivePage(1);
-    setSelectedGenreId(genreId);
+    setFilteringGenreId(genreId);
   };
 
   const handleSearch = (input: string) => {
     setActivePage(1);
-    setSelectedGenreId("");
+    setFilteringGenreId("");
     setSearchQuery(input);
   };
 
@@ -63,9 +70,19 @@ const Movies = () => {
         : { value: sortValue, order: "asc" }
     );
 
-  if (filteredMovies.length === 0)
-    return <h6>There are no movies in the database.</h6>;
-  // TODO: fix sorting
+  const headers = [
+    { value: "title", label: "Title" },
+    { value: "genre.name", label: "Genre" },
+    { value: "numberInStock", label: "Stock" },
+    { value: "dailyRentalRate", label: "Rate" },
+    { value: "", label: "", content: <LikeButton /> },
+    {
+      value: "",
+      label: "",
+      content: <Button variant={"danger"}>Delete</Button>,
+    },
+  ];
+
   const paginatedMovies = paginate(sortedMovies, activePage, pageSize);
 
   return (
@@ -73,7 +90,7 @@ const Movies = () => {
       <Col xs={12} md={3}>
         <ListGroupComponent
           items={genres}
-          selectedItemId={selectedGenreId}
+          selectedItemId={filteringGenreId}
           onItemSelect={handleGenreSelect}
         ></ListGroupComponent>
       </Col>
@@ -87,7 +104,12 @@ const Movies = () => {
           onChange={(value) => handleSearch(value)}
         ></Input>
         <MoviesHeading moviesCount={sortedMovies.length}></MoviesHeading>
-        <MoviesTable movies={paginatedMovies} sorting={sorting} onSort={(sortValue) => handleSort(sortValue)}></MoviesTable>
+        <MoviesTable
+          headers={headers}
+          movies={paginatedMovies}
+          sorting={sorting}
+          onSort={(sortValue) => handleSort(sortValue)}
+        ></MoviesTable>
         <PaginationComponent
           itemsCount={sortedMovies.length}
           pageSize={pageSize}
