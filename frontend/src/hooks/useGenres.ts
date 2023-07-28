@@ -1,13 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import Genre from "../entities/Genre";
-import ApiClient from "../services/apiClient";
-
-const apiClient = new ApiClient<Genre>("/genres");
+import genreService from "../services/genreService";
 
 const useGenres = () =>
   useQuery<Genre[], Error>({
     queryKey: ["genres"],
-    queryFn: apiClient.getAll,
+    queryFn: genreService.getAll,
   });
 
 export default useGenres;

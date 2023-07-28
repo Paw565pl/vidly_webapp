@@ -16,6 +16,8 @@ class ApiClient<T> {
       .get<T[]>(this.endpoint, config)
       .then(({ data }) => data)
       .catch((err) => err);
+
+  remove = (itemId: T) => axiosInstance.delete(this.endpoint + "/" + itemId);
 }
 
 export default ApiClient;

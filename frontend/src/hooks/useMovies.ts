@@ -1,13 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import Movie from "../entities/Movie";
-import ApiClient from "../services/apiClient";
-
-const apiClient = new ApiClient<Movie>("/movies");
+import movieService from "../services/movieService";
 
 const useMovies = () =>
   useQuery<Movie[], Error>({
     queryKey: ["movies"],
-    queryFn: apiClient.getAll,
+    queryFn: movieService.getAll,
   });
 
 export default useMovies;
