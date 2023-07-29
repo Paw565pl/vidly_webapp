@@ -16,7 +16,7 @@ const MovieForm = () => {
   const { data: movies } = useMovies();
   const { data: genres } = useGenres();
 
-  const { mutate, error: addingError } = useAddMovie();
+  const { mutate: addMovie, error: addingError } = useAddMovie();
 
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const MovieForm = () => {
   if (!currMovie && slug !== "new") throw new Error("Movie not found");
 
   const submitAction = (data: MovieForm) => {
-    mutate(data);
+    addMovie(data);
     if (!addingError) navigate("/");
   };
 
