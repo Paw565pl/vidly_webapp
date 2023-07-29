@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Col, Row, ToastContainer } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import MoviesHeading from "../components/MoviesHeading";
 import MoviesTable from "../components/MoviesTable";
@@ -108,13 +108,11 @@ const Movies = () => {
 
   return (
     <Row>
-      <ToastContainer position="top-center" className="mt-4">
-        {deleteError?.response?.status === 404 && (
-          <ToastComponent bg="danger">
-            This movie has already been deleted
-          </ToastComponent>
-        )}
-      </ToastContainer>
+      {deleteError?.response?.status === 404 && (
+        <ToastComponent bg="danger">
+          This movie has already been deleted.
+        </ToastComponent>
+      )}
       <Col xs={12} md={3}>
         <ListGroupComponent
           items={genres}

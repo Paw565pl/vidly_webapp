@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import { Toast } from "react-bootstrap";
+import { Toast, ToastContainer } from "react-bootstrap";
 
 interface Props {
   bg?: string;
@@ -10,7 +10,7 @@ const ToastComponent = ({ bg, children }: Props) => {
   const [show, setShow] = useState(true);
 
   return (
-    <>
+    <ToastContainer position="top-center" className="mt-4">
       <Toast
         animation={true}
         show={show}
@@ -25,7 +25,7 @@ const ToastComponent = ({ bg, children }: Props) => {
         </Toast.Header>
         <Toast.Body>{children}</Toast.Body>
       </Toast>
-    </>
+    </ToastContainer>
   );
 };
 

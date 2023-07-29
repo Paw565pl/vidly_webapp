@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import Input from "../components/common/Input";
 import Select from "../components/common/Select";
+import ToastComponent from "../components/common/ToastComponent";
 import { MovieForm } from "../entities/Movie";
 import useAddMovie from "../hooks/useAddMovie";
 import useGenres from "../hooks/useGenres";
@@ -15,7 +16,7 @@ const MovieForm = () => {
   const { data: movies } = useMovies();
   const { data: genres } = useGenres();
 
-  const { mutate } = useAddMovie();
+  const { mutate, isSuccess, error: addingError } = useAddMovie();
 
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -34,11 +35,18 @@ const MovieForm = () => {
 
   const submitAction = (data: MovieForm) => {
     mutate(data);
-    navigate("/");
+
+    if (isSuccess) navigate("/");
   };
 
   return (
     <div>
+      {addingError && (
+        <ToastComponent bg="danger">
+          Oops. Something went wrong. Your movie was not added.
+        </ToastComponent>
+      )}
+
       <h1>Movie Form</h1>
       <Form onSubmit={handleSubmit(submitAction)}>
         <Input
