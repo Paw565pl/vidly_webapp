@@ -1,20 +1,21 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Form } from "react-bootstrap";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { z } from "zod";
 import Input from "../components/common/Input";
 import Select from "../components/common/Select";
+import { MovieForm } from "../entities/Movie";
+import useAddMovie from "../hooks/useAddMovie";
 import useGenres from "../hooks/useGenres";
 import useMovies from "../hooks/useMovies";
 import MovieSchema from "../schemas/MovieSchema";
 import createSlug from "../utils/createSlug";
 
-type FormData = z.infer<typeof MovieSchema>;
-
 const MovieForm = () => {
   const { data: movies } = useMovies();
   const { data: genres } = useGenres();
+
+  const { mutate } = useAddMovie();
 
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const MovieForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<MovieForm>({
     resolver: zodResolver(MovieSchema),
   });
 
@@ -31,11 +32,8 @@ const MovieForm = () => {
 
   if (!currMovie && slug !== "new") throw new Error("Movie not found");
 
-  const submitAction = (data: FieldValues) => {
-    const genre = genres?.find((genre) => genre._id === data.genre);
-    const res = { ...data, genre };
-
-    // TODO: saveMovie
+  const submitAction = (data: MovieForm) => {
+    mutate(data);
     navigate("/");
   };
 
@@ -54,9 +52,9 @@ const MovieForm = () => {
         <Select
           id="genre"
           options={genres || []}
-          register={register("genre")}
+          register={register("genreId")}
           defaultValue={currMovie?.genre._id}
-          errorMessage={errors?.genre?.message}
+          errorMessage={errors?.genreId?.message}
         >
           Genre
         </Select>

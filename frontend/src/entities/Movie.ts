@@ -1,3 +1,5 @@
+import { z } from "zod";
+import MovieSchema from "../schemas/MovieSchema";
 import Genre from "./Genre";
 
 interface Movie {
@@ -7,5 +9,7 @@ interface Movie {
   numberInStock: number;
   dailyRentalRate: number;
 }
+
+export type MovieForm = z.infer<typeof MovieSchema>;
 
 export default Movie;

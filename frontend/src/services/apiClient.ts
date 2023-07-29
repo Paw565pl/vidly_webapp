@@ -4,7 +4,7 @@ const axiosInstance = axios.create({
   baseURL: "http://localhost:3900/api",
 });
 
-class ApiClient<T> {
+class ApiClient<T, P = void> {
   endpoint: string;
 
   constructor(endpoint: string) {
@@ -14,7 +14,7 @@ class ApiClient<T> {
   getAll = (config?: AxiosRequestConfig) =>
     axiosInstance.get<T[]>(this.endpoint, config).then(({ data }) => data);
 
-  add = (item: T) =>
+  add = (item: T | P) =>
     axiosInstance.post<T>(this.endpoint, item).then(({ data }) => data);
 
   remove = (itemId: string) =>

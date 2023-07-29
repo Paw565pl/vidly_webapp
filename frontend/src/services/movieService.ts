@@ -1,6 +1,6 @@
-import Movie from "../entities/Movie";
+import Movie, { MovieForm } from "../entities/Movie";
 import ApiClient from "./apiClient";
 
-const movieService = new ApiClient<Movie>("/movies");
+const movieService = new ApiClient<Movie, MovieForm>("/movies");
 
 export default movieService;

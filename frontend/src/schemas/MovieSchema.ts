@@ -1,8 +1,11 @@
 import { z } from "zod";
 
 const MovieSchema = z.object({
-  title: z.string().nonempty("this field is required"),
-  genre: z.string().nonempty("this field is required"),
+  title: z
+    .string()
+    .nonempty("this field is required")
+    .min(5, "minimum length is 5 characters"),
+  genreId: z.string().nonempty("this field is required"),
   numberInStock: z
     .number({ invalid_type_error: "this field is required" })
     .min(0, "must be greater than 0")
