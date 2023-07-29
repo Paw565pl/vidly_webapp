@@ -29,14 +29,14 @@ const RegisterForm = () => {
           register={register("email")}
           type="email"
           autofocus={true}
-          errorMessage={errors.email && errors.email.message}
+          errorMessage={errors?.email?.message}
         >
           E-mail
         </Input>
         <Input
           id="registerUsername"
           register={register("username")}
-          errorMessage={errors.username && errors.username.message}
+          errorMessage={errors?.username?.message}
         >
           Username
         </Input>
@@ -44,7 +44,7 @@ const RegisterForm = () => {
           id="registerPassword"
           register={register("password")}
           type={"password"}
-          errorMessage={errors.password && errors.password.message}
+          errorMessage={errors?.password?.message}
         >
           Password
         </Input>

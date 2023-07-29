@@ -29,7 +29,7 @@ const LoginForm = () => {
           id="loginUsername"
           register={register("username")}
           autofocus={true}
-          errorMessage={errors.username && errors.username.message}
+          errorMessage={errors?.username?.message}
         >
           Username
         </Input>
@@ -37,7 +37,7 @@ const LoginForm = () => {
           id="loginPassword"
           register={register("password")}
           type={"password"}
-          errorMessage={errors.password && errors.password.message}
+          errorMessage={errors?.password?.message}
         >
           Password
         </Input>
