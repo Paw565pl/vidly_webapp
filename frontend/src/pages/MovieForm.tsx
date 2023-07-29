@@ -16,7 +16,7 @@ const MovieForm = () => {
   const { data: movies } = useMovies();
   const { data: genres } = useGenres();
 
-  const { mutate, isSuccess, error: addingError } = useAddMovie();
+  const { mutate, error: addingError } = useAddMovie();
 
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -35,8 +35,7 @@ const MovieForm = () => {
 
   const submitAction = (data: MovieForm) => {
     mutate(data);
-
-    if (isSuccess) navigate("/");
+    if (!addingError) navigate("/");
   };
 
   return (
