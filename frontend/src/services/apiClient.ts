@@ -1,5 +1,10 @@
 import axios, { AxiosRequestConfig } from "axios";
 
+interface updateQuery<T, P = void> {
+  itemId: string;
+  item: T | P;
+}
+
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3900/api",
 });
@@ -16,6 +21,11 @@ class ApiClient<T, P = void> {
 
   add = (item: T | P) =>
     axiosInstance.post<T>(this.endpoint, item).then(({ data }) => data);
+
+  update = ({ itemId, item }: updateQuery<T, P>) =>
+    axiosInstance
+      .put<T>(this.endpoint + "/" + itemId, item)
+      .then(({ data }) => data);
 
   remove = (itemId: string) =>
     axiosInstance

@@ -9,6 +9,7 @@ import { MovieForm } from "../entities/Movie";
 import useAddMovie from "../hooks/useAddMovie";
 import useGenres from "../hooks/useGenres";
 import useMovies from "../hooks/useMovies";
+import useUpdateMovie from "../hooks/useUpdateMovie";
 import MovieSchema from "../schemas/MovieSchema";
 import createSlug from "../utils/createSlug";
 
@@ -17,6 +18,7 @@ const MovieForm = () => {
   const { data: genres } = useGenres();
 
   const { mutate: addMovie, error: addingError } = useAddMovie();
+  const { mutate: updateMovie, error: updatingError } = useUpdateMovie();
 
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -34,8 +36,10 @@ const MovieForm = () => {
   if (!currMovie && slug !== "new") throw new Error("Movie not found");
 
   const submitAction = (data: MovieForm) => {
-    addMovie(data);
-    if (!addingError) navigate("/");
+    if (!currMovie) addMovie(data);
+    else updateMovie({ itemId: currMovie._id, item: data });
+
+    if (!addingError || !updatingError) navigate("/");
   };
 
   return (
