@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { Button, Col, Row, ToastContainer } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import MoviesHeading from "../components/MoviesHeading";
+import MoviesTable from "../components/MoviesTable";
+import Input from "../components/common/Input";
+import ListGroupComponent from "../components/common/ListGroupComponent";
+import PaginationComponent from "../components/common/PaginationComponent";
+import ToastComponent from "../components/common/ToastComponent";
 import useDeleteMovie from "../hooks/useDeleteMovie";
 import useGenres from "../hooks/useGenres";
 import useMovies from "../hooks/useMovies";
 import paginate from "../utils/paginate";
 import resolveObjectPath from "../utils/resolveObjectPath";
-import MoviesHeading from "./MoviesHeading";
-import MoviesTable from "./MoviesTable";
-import Input from "./common/Input";
-import ListGroupComponent from "./common/ListGroupComponent";
-import PaginationComponent from "./common/PaginationComponent";
-import ToastComponent from "./common/ToastComponent";
 
 interface SortObject {
   value: string;
@@ -126,7 +126,7 @@ const Movies = () => {
         <Button
           className="mt-2 mt-md-0"
           variant="primary"
-          onClick={() => navigate("/movie/new")}
+          onClick={() => navigate("/movies/new")}
         >
           New Movie
         </Button>

@@ -1,12 +1,12 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import Layout from "./Layout";
-import Customers from "./components/Customers";
 import LoginForm from "./components/LoginForm";
 import MovieForm from "./components/MovieForm";
-import Movies from "./components/Movies";
-import NotFound from "./components/NotFound";
 import RegisterForm from "./components/RegisterForm";
-import Rentals from "./components/Rentals";
+import Customers from "./pages/Customers";
+import Movies from "./pages/Movies";
+import NotFound from "./pages/NotFound";
+import Rentals from "./pages/Rentals";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to={"movies"} /> },
       { path: "movies", element: <Movies /> },
-      { path: "movie/:slug", element: <MovieForm /> },
+      { path: "movies/:slug", element: <MovieForm /> },
       { path: "login", element: <LoginForm /> },
       { path: "register", element: <RegisterForm /> },
       { path: "customers", element: <Customers /> },

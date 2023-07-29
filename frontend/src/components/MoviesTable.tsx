@@ -71,7 +71,7 @@ const MoviesTable = ({ movies, sorting, onSort, onDelete }: Props) => {
             {headers.map((header, itemIndex) => (
               <td key={itemIndex}>
                 {header.value === "title" ? (
-                  <Link to={`/movie/${createSlug(movies[rowIndex].title)}`}>
+                  <Link to={`/movies/${createSlug(movies[rowIndex].title)}`}>
                     {renderCell(movies[rowIndex], header)}
                   </Link>
                 ) : (
