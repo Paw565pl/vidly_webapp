@@ -123,7 +123,11 @@ const Movies = () => {
         ></ListGroupComponent>
       </Col>
       <Col>
-        <Button variant="primary" onClick={() => navigate("/movie/new")}>
+        <Button
+          className="mt-2 mt-md-0"
+          variant="primary"
+          onClick={() => navigate("/movie/new")}
+        >
           New Movie
         </Button>
         <Input
