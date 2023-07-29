@@ -14,7 +14,7 @@ class ApiClient<T> {
   getAll = (config?: AxiosRequestConfig) =>
     axiosInstance.get<T[]>(this.endpoint, config).then(({ data }) => data);
 
-  remove = (itemId: string | number) =>
+  remove = (itemId: string) =>
     axiosInstance
       .delete<T>(this.endpoint + "/" + itemId)
       .then(({ data }) => data);

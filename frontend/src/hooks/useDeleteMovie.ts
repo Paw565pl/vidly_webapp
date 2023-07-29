@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import Movie from "../entities/Movie";
 import movieService from "../services/movieService";
 
@@ -6,7 +7,7 @@ const useDeleteMovie = () => {
   const queryClient = useQueryClient();
   const queryKey = ["movies"];
 
-  return useMutation<Movie, Error, string, Movie[]>({
+  return useMutation<Movie, AxiosError, string, Movie[]>({
     mutationFn: movieService.remove,
 
     onMutate: async (deletedMovieId: string) => {

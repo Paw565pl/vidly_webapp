@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button, Col, Row, ToastContainer } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import useDeleteMovie from "../hooks/useDeleteMovie";
 import useGenres from "../hooks/useGenres";
@@ -11,6 +11,7 @@ import MoviesTable from "./MoviesTable";
 import Input from "./common/Input";
 import ListGroupComponent from "./common/ListGroupComponent";
 import PaginationComponent from "./common/PaginationComponent";
+import ToastComponent from "./common/ToastComponent";
 
 interface SortObject {
   value: string;
@@ -52,7 +53,7 @@ const Movies = () => {
 
   const genres = [{ _id: "", name: "All genres" }, ...(fetchedGenres || [])];
 
-  const pageSize = 4; // TODO: dropdown to pick page size
+  const pageSize = 4;
 
   const {
     activePage,
@@ -107,6 +108,13 @@ const Movies = () => {
 
   return (
     <Row>
+      <ToastContainer position="top-center" className="mt-4">
+        {deleteError?.response?.status === 404 && (
+          <ToastComponent bg="danger">
+            This movie has already been deleted
+          </ToastComponent>
+        )}
+      </ToastContainer>
       <Col xs={12} md={3}>
         <ListGroupComponent
           items={genres}
@@ -130,8 +138,6 @@ const Movies = () => {
           onSort={(sortValue) => handleSort(sortValue)}
           onDelete={(movieId) => deleteMovieById(movieId)}
         ></MoviesTable>
-        {deleteError && <p>{deleteError.message}</p>}
-        {/* TODO: react toastify danger */}
         <PaginationComponent
           itemsCount={sortedMovies?.length || 0}
           pageSize={pageSize}
