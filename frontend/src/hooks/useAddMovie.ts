@@ -14,6 +14,8 @@ const useAddMovie = () => {
       queryClient.invalidateQueries({
         queryKey,
       }),
+
+    retry: false,
   });
 };
 
