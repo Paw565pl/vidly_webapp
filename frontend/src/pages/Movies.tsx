@@ -44,7 +44,7 @@ const Movies = () => {
     sortObject: { value: "title", order: "asc" },
   });
 
-  if (fetchingMoviesError) throw new Error();
+  if (fetchingMoviesError) throw new Error("fetching movies error");
 
   if (isLoading) return <p>Loading...</p>;
 
