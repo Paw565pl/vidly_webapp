@@ -8,22 +8,26 @@ const NavbarComponent = () => {
         <Navbar.Brand>
           <Link to={""}>Vidly</Link>
         </Navbar.Brand>
-        <Nav className="me-auto">
-          <NavLink to={"movies"} className={"nav-link"}>
-            Movies
-          </NavLink>
-          <NavLink to={"customers"} className={"nav-link"}>
-            Customers
-          </NavLink>
-          <NavLink to={"rentals"} className={"nav-link"}>
-            Rentals
-          </NavLink>
-          <NavLink to={"login"} className={"nav-link"}>
-            Login
-          </NavLink>
-          <NavLink to={"register"} className={"nav-link"}>
-            Register
-          </NavLink>
+        <Nav className="w-100 d-flex justify-content-between">
+          <div className="d-flex">
+            <NavLink to={"movies"} className={"nav-link"}>
+              Movies
+            </NavLink>
+            <NavLink to={"customers"} className={"nav-link"}>
+              Customers
+            </NavLink>
+            <NavLink to={"rentals"} className={"nav-link"}>
+              Rentals
+            </NavLink>
+          </div>
+          <div className="d-flex">
+            <NavLink to={"login"} className={"nav-link"}>
+              Login
+            </NavLink>
+            <NavLink to={"register"} className={"nav-link"}>
+              Register
+            </NavLink>
+          </div>
         </Nav>
       </Container>
     </Navbar>
