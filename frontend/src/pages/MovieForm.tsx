@@ -3,12 +3,12 @@ import { Button, Form } from "react-bootstrap";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
+import Input from "../components/common/Input";
+import Select from "../components/common/Select";
 import useGenres from "../hooks/useGenres";
 import useMovies from "../hooks/useMovies";
 import MovieSchema from "../schemas/MovieSchema";
 import createSlug from "../utils/createSlug";
-import Input from "./common/Input";
-import Select from "./common/Select";
 
 type FormData = z.infer<typeof MovieSchema>;
 

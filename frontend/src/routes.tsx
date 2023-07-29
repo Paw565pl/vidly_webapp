@@ -1,11 +1,11 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import Layout from "./Layout";
-import LoginForm from "./components/LoginForm";
-import MovieForm from "./components/MovieForm";
-import RegisterForm from "./components/RegisterForm";
 import Customers from "./pages/Customers";
+import LoginForm from "./pages/Login";
+import MovieForm from "./pages/MovieForm";
 import Movies from "./pages/Movies";
 import NotFound from "./pages/NotFound";
+import RegisterForm from "./pages/Register";
 import Rentals from "./pages/Rentals";
 
 const router = createBrowserRouter([

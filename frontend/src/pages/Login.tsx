@@ -3,8 +3,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
+import Input from "../components/common/Input";
 import UserSchema from "../schemas/UserSchema";
-import Input from "./common/Input";
 
 const schema = UserSchema.pick({ username: true, password: true });
 
