@@ -1,8 +1,10 @@
 import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import useCurrentUser from "../hooks/useCurrentUser";
 
 const Logout = () => {
-  const { clearUser } = useCurrentUser();
+  const { getUser, clearUser } = useCurrentUser();
+  if (!getUser()) return <Navigate to={"/"} />;
 
   useEffect(() => {
     clearUser();
