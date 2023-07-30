@@ -19,4 +19,6 @@ const UserSchema = z.object({
     .max(255, "password can't be longer than 255 characters"),
 });
 
+export const loginSchema = UserSchema.pick({ email: true, password: true });
+
 export default UserSchema;

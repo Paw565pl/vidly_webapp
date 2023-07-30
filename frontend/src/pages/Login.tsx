@@ -6,8 +6,9 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Input from "../components/common/Input";
 import ToastComponent from "../components/common/ToastComponent";
-import { UserLoginData, loginSchema } from "../entities/Auth";
+import { UserLoginData } from "../entities/Auth";
 import useLoginUser from "../hooks/useLoginUser";
+import { loginSchema } from "../schemas/UserSchema";
 
 const LoginForm = () => {
   const [errorVisibility, setErrorVisibility] = useState(false);
