@@ -19,11 +19,15 @@ const RegisterForm = () => {
     resolver: zodResolver(UserSchema),
   });
 
-  const { mutate: registerUser, error: registerError } = useRegisterUser();
+  const {
+    mutate: registerUser,
+    isSuccess,
+    error: registerError,
+  } = useRegisterUser();
 
   const submitAction = (data: UserForm) => {
     registerUser(data);
-    if (!registerError) navigate("/login");
+    if (isSuccess) navigate("/login");
   };
 
   return (
