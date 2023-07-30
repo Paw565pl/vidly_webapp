@@ -2,7 +2,7 @@ import { z } from "zod";
 import MovieSchema from "../schemas/MovieSchema";
 import Genre from "./Genre";
 
-interface Movie {
+export default interface Movie {
   _id: string;
   title: string;
   genre: Genre;
@@ -11,5 +11,3 @@ interface Movie {
 }
 
 export type MovieForm = z.infer<typeof MovieSchema>;
-
-export default Movie;
