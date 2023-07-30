@@ -28,7 +28,7 @@ const useDeleteMovie = () => {
       });
     },
 
-    onError: (error, deletedMovieId, previousMovies) => {
+    onError: (_error, _deletedMovieId, previousMovies) => {
       if (!previousMovies) return;
 
       queryClient.setQueryData<Movie[]>(queryKey, previousMovies);
