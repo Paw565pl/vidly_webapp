@@ -10,17 +10,15 @@ import UserSchema from "../schemas/UserSchema";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors: validationErrors },
   } = useForm<UserRegisterData>({
     resolver: zodResolver(UserSchema),
   });
 
   const { mutate: registerUser, error: registerError } = useRegisterUser();
-
   const submitAction = (data: UserRegisterData) =>
     registerUser(data, {
       onSuccess: () => navigate("/login"),
@@ -43,14 +41,14 @@ const RegisterForm = () => {
           register={register("email")}
           type="email"
           autofocus={true}
-          errorMessage={errors?.email?.message}
+          errorMessage={validationErrors?.email?.message}
         >
           E-mail
         </Input>
         <Input
           id="registerName"
           register={register("name")}
-          errorMessage={errors?.name?.message}
+          errorMessage={validationErrors?.name?.message}
         >
           Name
         </Input>
@@ -58,7 +56,7 @@ const RegisterForm = () => {
           id="registerPassword"
           register={register("password")}
           type={"password"}
-          errorMessage={errors?.password?.message}
+          errorMessage={validationErrors?.password?.message}
         >
           Password
         </Input>
