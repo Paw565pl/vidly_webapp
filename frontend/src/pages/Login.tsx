@@ -2,11 +2,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
-import { Navigate } from "react-router-dom";
 import Input from "../components/common/Input";
 import ToastComponent from "../components/common/ToastComponent";
 import { UserLoginData } from "../entities/Auth";
-import useCurrentUser from "../hooks/useCurrentUser";
 import useLoginUser from "../hooks/useLoginUser";
 import { loginSchema } from "../schemas/UserSchema";
 
@@ -20,9 +18,6 @@ const LoginForm = () => {
     loginUser(data, {
       onSuccess: () => (window.location.href = "/"),
     });
-
-  const { getUser } = useCurrentUser();
-  if (getUser()) return <Navigate to={"/"} />;
 
   return (
     <div>

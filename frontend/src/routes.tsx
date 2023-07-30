@@ -1,5 +1,7 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import Layout from "./Layout";
+import PrivateRoute from "./components/common/PrivateRoute";
+import useCurrentUser from "./hooks/useCurrentUser";
 import Customers from "./pages/Customers";
 import LoginForm from "./pages/Login";
 import Logout from "./pages/Logout";
@@ -10,6 +12,9 @@ import Profile from "./pages/Profile";
 import RegisterForm from "./pages/Register";
 import Rentals from "./pages/Rentals";
 
+const { getUser } = useCurrentUser();
+const isUser = !!getUser();
+
 const router = createBrowserRouter([
   {
     path: "",
@@ -19,10 +24,37 @@ const router = createBrowserRouter([
       { index: true, element: <Navigate to={"movies"} /> },
       { path: "movies", element: <Movies /> },
       { path: "movies/:slug", element: <MovieForm /> },
-      { path: "login", element: <LoginForm /> },
-      { path: "register", element: <RegisterForm /> },
+      {
+        path: "login",
+        element: (
+          <PrivateRoute
+            condition={!isUser}
+            element={<LoginForm />}
+            redirectTo={"/"}
+          />
+        ),
+      },
+      {
+        path: "register",
+        element: (
+          <PrivateRoute
+            condition={!isUser}
+            element={<RegisterForm />}
+            redirectTo={"/"}
+          />
+        ),
+      },
       { path: "profile", element: <Profile /> },
-      { path: "logout", element: <Logout /> },
+      {
+        path: "logout",
+        element: (
+          <PrivateRoute
+            condition={isUser}
+            element={<Logout />}
+            redirectTo={"/"}
+          />
+        ),
+      },
       { path: "customers", element: <Customers /> },
       { path: "rentals", element: <Rentals /> },
       { path: "not-found", element: <NotFound /> },

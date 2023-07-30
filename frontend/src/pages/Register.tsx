@@ -1,11 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Input from "../components/common/Input";
 import ToastComponent from "../components/common/ToastComponent";
 import { UserRegisterData } from "../entities/User";
-import useCurrentUser from "../hooks/useCurrentUser";
 import useRegisterUser from "../hooks/useRegisterUser";
 import UserSchema from "../schemas/UserSchema";
 
@@ -24,9 +23,6 @@ const RegisterForm = () => {
     registerUser(data, {
       onSuccess: () => navigate("/login"),
     });
-
-  const { getUser } = useCurrentUser();
-  if (getUser()) return <Navigate to={"/"} />;
 
   return (
     <div>
