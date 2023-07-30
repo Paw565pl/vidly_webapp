@@ -17,46 +17,50 @@ const MovieForm = () => {
   const { data: movies } = useMovies();
   const { data: genres } = useGenres();
 
-  const { mutate: addMovie, error: addingError } = useAddMovie();
-  const { mutate: updateMovie, error: updatingError } = useUpdateMovie();
-
   const { slug } = useParams();
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors: validationErrors },
   } = useForm<MovieForm>({
     resolver: zodResolver(MovieSchema),
   });
+
+  const { mutate: addMovie, error: addingError } = useAddMovie();
+  const { mutate: updateMovie, error: updatingError } = useUpdateMovie();
+
+  const submitAction = (data: MovieForm) => {
+    if (!currMovie) addMovie(data, { onSuccess: navigateToMovies });
+    else
+      updateMovie(
+        { itemId: currMovie._id, item: data },
+        { onSuccess: navigateToMovies }
+      );
+  };
+
+  const navigateToMovies = () => navigate("/");
 
   const currMovie = movies?.find((movie) => createSlug(movie.title) === slug);
 
   if (!currMovie && slug !== "new") throw new Error("Movie not found");
 
-  const submitAction = (data: MovieForm) => {
-    if (!currMovie) addMovie(data);
-    else updateMovie({ itemId: currMovie._id, item: data });
-
-    if (!addingError || !updatingError) navigate("/");
-  };
-
   return (
     <div>
-      {addingError && (
+      {(addingError || updatingError) && (
         <ToastComponent bg="danger">
           Oops. Something went wrong. Your movie was not added.
         </ToastComponent>
       )}
-      
+
       <h1>Movie Form</h1>
       <Form onSubmit={handleSubmit(submitAction)}>
         <Input
           id="title"
           register={register("title")}
           defaultValue={currMovie?.title}
-          errorMessage={errors?.title?.message}
+          errorMessage={validationErrors?.title?.message}
         >
           Title
         </Input>
@@ -65,7 +69,7 @@ const MovieForm = () => {
           options={genres || []}
           register={register("genreId")}
           defaultValue={currMovie?.genre._id}
-          errorMessage={errors?.genreId?.message}
+          errorMessage={validationErrors?.genreId?.message}
         >
           Genre
         </Select>
@@ -74,7 +78,7 @@ const MovieForm = () => {
           id="numberInStock"
           register={register("numberInStock", { valueAsNumber: true })}
           defaultValue={currMovie?.numberInStock}
-          errorMessage={errors?.numberInStock?.message}
+          errorMessage={validationErrors?.numberInStock?.message}
         >
           Number In Stock
         </Input>
@@ -83,7 +87,7 @@ const MovieForm = () => {
           id="rate"
           register={register("dailyRentalRate", { valueAsNumber: true })}
           defaultValue={currMovie?.dailyRentalRate}
-          errorMessage={errors?.dailyRentalRate?.message}
+          errorMessage={validationErrors?.dailyRentalRate?.message}
         >
           Rate
         </Input>
