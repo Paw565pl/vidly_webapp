@@ -2,6 +2,7 @@ import { Navigate, createBrowserRouter } from "react-router-dom";
 import Layout from "./Layout";
 import Customers from "./pages/Customers";
 import LoginForm from "./pages/Login";
+import Logout from "./pages/Logout";
 import MovieForm from "./pages/MovieForm";
 import Movies from "./pages/Movies";
 import NotFound from "./pages/NotFound";
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
       { path: "movies", element: <Movies /> },
       { path: "movies/:slug", element: <MovieForm /> },
       { path: "login", element: <LoginForm /> },
+      { path: "logout", element: <Logout /> },
       { path: "register", element: <RegisterForm /> },
       { path: "customers", element: <Customers /> },
       { path: "rentals", element: <Rentals /> },

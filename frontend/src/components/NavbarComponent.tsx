@@ -1,7 +1,11 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
+import useCurrentUser from "../hooks/useCurrentUser";
 
 const NavbarComponent = () => {
+  const { getUser } = useCurrentUser();
+  const loggedUser = getUser();
+
   return (
     <Navbar bg="primary" data-bs-theme="dark" className="mb-5">
       <Container className="px-3">
@@ -21,12 +25,25 @@ const NavbarComponent = () => {
             </NavLink>
           </div>
           <div className="d-flex">
-            <NavLink to={"login"} className={"nav-link"}>
-              Login
-            </NavLink>
-            <NavLink to={"register"} className={"nav-link"}>
-              Register
-            </NavLink>
+            {loggedUser ? (
+              <>
+                <NavLink to={"profile"} className={"nav-link"}>
+                  {loggedUser.name}
+                </NavLink>
+                <Link to={"logout"} className={"nav-link"}>
+                  Logout
+                </Link>
+              </>
+            ) : (
+              <>
+                <NavLink to={"login"} className={"nav-link"}>
+                  Login
+                </NavLink>
+                <NavLink to={"register"} className={"nav-link"}>
+                  Register
+                </NavLink>
+              </>
+            )}
           </div>
         </Nav>
       </Container>

@@ -1,11 +1,16 @@
 import jwt_decode from "jwt-decode";
 import Auth from "../entities/Auth";
+import User from "../entities/User";
+
+interface DecodedUser extends User {
+  iat: number;
+}
 
 const localStorageId = "token";
 
 const useCurrentUser = () => {
   const setUser = (jwt: Auth) => localStorage.setItem(localStorageId, jwt);
-  const getUser = () => {
+  const getUser = (): DecodedUser | undefined => {
     const currUser = localStorage.getItem(localStorageId);
     if (!currUser) return;
     return jwt_decode(currUser);

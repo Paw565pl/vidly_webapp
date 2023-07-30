@@ -18,7 +18,10 @@ const LoginForm = () => {
   const { mutate: loginUser, error: loginError } = useLoginUser();
   const submitAction = (data: UserLoginData) =>
     loginUser(data, {
-      onSuccess: () => navigate("/"),
+      onSuccess: () => {
+        navigate("/");
+        navigate(0);
+      },
     });
 
   return (
