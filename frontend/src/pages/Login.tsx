@@ -12,7 +12,7 @@ import useLoginUser from "../hooks/useLoginUser";
 const LoginForm = () => {
   const [errorVisibility, setErrorVisibility] = useState(false);
 
-  const { mutate: loginUser, error: loginError } = useLoginUser();
+  const { mutate: loginUser } = useLoginUser();
 
   const { register, handleSubmit } = useForm<UserLoginData>({
     resolver: zodResolver(loginSchema),
@@ -20,11 +20,13 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
-  const submitAction = (data: UserLoginData) => {
-    loginUser(data);
-    if (!loginError) navigate("/");
-  };
+  const submitAction = (data: UserLoginData) =>
+    loginUser(data, {
+      onSuccess: () => navigate("/"),
+      onError: () => submitFail(),
+    });
 
+  // use axios message for toast
   const submitFail = () => {
     setErrorVisibility(true);
     setTimeout(() => {

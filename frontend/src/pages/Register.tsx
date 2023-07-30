@@ -21,10 +21,10 @@ const RegisterForm = () => {
 
   const { mutate: registerUser, error: registerError } = useRegisterUser();
 
-  const submitAction = (data: UserRegisterData) => {
-    registerUser(data);
-    if (!registerError) navigate("/login");
-  };
+  const submitAction = (data: UserRegisterData) =>
+    registerUser(data, {
+      onSuccess: () => navigate("/login"),
+    });
 
   return (
     <div>
