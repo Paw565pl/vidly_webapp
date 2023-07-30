@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { apiUrl } from "./config.json";
 
 interface updateQuery<T, P = void> {
   itemId: string;
@@ -6,7 +7,7 @@ interface updateQuery<T, P = void> {
 }
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3900/api",
+  baseURL: apiUrl,
 });
 
 class ApiClient<T, P = void> {
