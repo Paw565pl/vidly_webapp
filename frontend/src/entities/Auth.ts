@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { loginSchema } from "../schemas/UserSchema";
 
-type Auth = string;
+type AuthToken = string;
 
 export type UserLoginData = z.infer<typeof loginSchema>;
-export default Auth;
+export default AuthToken;
