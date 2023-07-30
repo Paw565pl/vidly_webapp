@@ -7,4 +7,4 @@ export default interface User {
   email: string;
 }
 
-export type UserForm = z.infer<typeof UserSchema>;
+export type UserRegisterData = z.infer<typeof UserSchema>;

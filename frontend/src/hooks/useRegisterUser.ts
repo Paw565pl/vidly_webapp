@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import User, { UserForm } from "../entities/User";
+import User, { UserRegisterData } from "../entities/User";
 import userService from "../services/userService";
 
 const useRegisterUser = () =>
-  useMutation<User, AxiosError, UserForm>({
+  useMutation<User, AxiosError, UserRegisterData>({
     mutationFn: userService.add,
   });
 

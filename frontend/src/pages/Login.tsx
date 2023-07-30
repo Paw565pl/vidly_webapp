@@ -2,13 +2,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
 import Input from "../components/common/Input";
-import UserSchema from "../schemas/UserSchema";
-
-const loginSchema = UserSchema.pick({ name: true, password: true });
-
-type UserLoginData = z.infer<typeof loginSchema>;
+import { UserLoginData, loginSchema } from "../entities/Auth";
 
 const LoginForm = () => {
   const {
