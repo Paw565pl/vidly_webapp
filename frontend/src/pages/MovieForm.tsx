@@ -23,7 +23,7 @@ const MovieForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors: validationErrors },
+    formState: { errors: validationErrors, isSubmitted },
   } = useForm<MovieForm>({
     resolver: zodResolver(MovieSchema),
   });
@@ -44,7 +44,8 @@ const MovieForm = () => {
 
   const currMovie = movies?.find((movie) => createSlug(movie.title) === slug);
 
-  if (!currMovie && slug !== "new") throw new Error("Movie not found");
+  if (!isSubmitted && !currMovie && slug !== "new")
+    throw new Error("Movie not found");
 
   return (
     <div>
