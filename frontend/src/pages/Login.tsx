@@ -21,12 +21,12 @@ const LoginForm = () => {
       <h1>Login</h1>
       <Form onSubmit={handleSubmit(submitAction)}>
         <Input
-          id="loginName"
-          register={register("name")}
+          id="loginEmail"
+          register={register("email")}
           autofocus={true}
-          errorMessage={errors?.name?.message}
+          errorMessage={errors?.email?.message}
         >
-          Name
+          Email
         </Input>
         <Input
           id="loginPassword"
