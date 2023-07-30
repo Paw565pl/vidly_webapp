@@ -49,7 +49,7 @@ const MovieForm = () => {
           Oops. Something went wrong. Your movie was not added.
         </ToastComponent>
       )}
-
+      
       <h1>Movie Form</h1>
       <Form onSubmit={handleSubmit(submitAction)}>
         <Input
