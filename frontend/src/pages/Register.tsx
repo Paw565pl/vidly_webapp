@@ -1,18 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Form } from "react-bootstrap";
 import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
 import Input from "../components/common/Input";
+import { UserForm } from "../entities/User";
 import UserSchema from "../schemas/UserSchema";
-
-type FormData = z.infer<typeof UserSchema>;
 
 const RegisterForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<UserForm>({
     resolver: zodResolver(UserSchema),
   });
 
