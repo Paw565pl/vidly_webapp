@@ -6,6 +6,7 @@ import Logout from "./pages/Logout";
 import MovieForm from "./pages/MovieForm";
 import Movies from "./pages/Movies";
 import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
 import RegisterForm from "./pages/Register";
 import Rentals from "./pages/Rentals";
 
@@ -19,8 +20,9 @@ const router = createBrowserRouter([
       { path: "movies", element: <Movies /> },
       { path: "movies/:slug", element: <MovieForm /> },
       { path: "login", element: <LoginForm /> },
-      { path: "logout", element: <Logout /> },
       { path: "register", element: <RegisterForm /> },
+      { path: "profile", element: <Profile /> },
+      { path: "logout", element: <Logout /> },
       { path: "customers", element: <Customers /> },
       { path: "rentals", element: <Rentals /> },
       { path: "not-found", element: <NotFound /> },
