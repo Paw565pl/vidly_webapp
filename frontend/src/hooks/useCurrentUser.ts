@@ -6,12 +6,12 @@ interface DecodedUser extends User {
   iat: number;
 }
 
-const localStorageId = "token";
+const tokenKey = "token";
 
 const useCurrentUser = () => {
-  const setUser = (jwt: Auth) => localStorage.setItem(localStorageId, jwt);
+  const setUser = (jwt: Auth) => localStorage.setItem(tokenKey, jwt);
   const getUser = (): DecodedUser | null => {
-    const currUser = localStorage.getItem(localStorageId);
+    const currUser = localStorage.getItem(tokenKey);
     if (!currUser) return null;
     try {
       return jwt_decode(currUser);
@@ -19,9 +19,10 @@ const useCurrentUser = () => {
       return null;
     }
   };
-  const clearUser = () => localStorage.removeItem(localStorageId);
+  const getUserJwt = () => localStorage.getItem(tokenKey);
+  const clearUser = () => localStorage.removeItem(tokenKey);
 
-  return { setUser, getUser, clearUser };
+  return { setUser, getUser, getUserJwt, clearUser };
 };
 
 export default useCurrentUser;

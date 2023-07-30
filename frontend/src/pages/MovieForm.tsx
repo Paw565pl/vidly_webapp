@@ -50,7 +50,10 @@ const MovieForm = () => {
     <div>
       {(addingError || updatingError) && (
         <ToastComponent bg="danger">
-          Oops. Something went wrong. Your movie was not added.
+          {addingError?.response?.status === 401 ||
+          updatingError?.response?.status === 401
+            ? "You have to be logged in!"
+            : "Oops. Something went wrong. Your movie was not added."}
         </ToastComponent>
       )}
 

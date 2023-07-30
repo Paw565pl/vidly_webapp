@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
+import useCurrentUser from "../hooks/useCurrentUser";
 import { apiUrl } from "./config.json";
 
 interface updateQuery<T, P = void> {
@@ -9,6 +10,9 @@ interface updateQuery<T, P = void> {
 const axiosInstance = axios.create({
   baseURL: apiUrl,
 });
+
+const { getUserJwt } = useCurrentUser();
+axiosInstance.defaults.headers.common["x-auth-token"] = getUserJwt();
 
 class ApiClient<T, P = void> {
   endpoint: string;
