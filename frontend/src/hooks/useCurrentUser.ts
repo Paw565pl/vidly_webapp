@@ -13,7 +13,9 @@ const useCurrentUser = () => {
   const getUser = (): DecodedUser | undefined => {
     const currUser = localStorage.getItem(localStorageId);
     if (!currUser) return;
-    return jwt_decode(currUser);
+    try {
+      return jwt_decode(currUser);
+    } catch (err) {}
   };
   const clearUser = () => localStorage.removeItem(localStorageId);
 
