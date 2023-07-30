@@ -3,13 +3,13 @@ import Layout from "./Layout";
 import PrivateRoute from "./components/common/PrivateRoute";
 import useCurrentUser from "./hooks/useCurrentUser";
 import Customers from "./pages/Customers";
-import LoginForm from "./pages/Login";
+import LoginForm from "./pages/LoginForm";
 import Logout from "./pages/Logout";
 import MovieForm from "./pages/MovieForm";
 import Movies from "./pages/Movies";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
-import RegisterForm from "./pages/Register";
+import RegisterForm from "./pages/RegisterForm";
 import Rentals from "./pages/Rentals";
 
 const { getUser } = useCurrentUser();
