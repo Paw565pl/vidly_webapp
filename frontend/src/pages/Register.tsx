@@ -34,11 +34,11 @@ const RegisterForm = () => {
           E-mail
         </Input>
         <Input
-          id="registerUsername"
-          register={register("username")}
-          errorMessage={errors?.username?.message}
+          id="registerName"
+          register={register("name")}
+          errorMessage={errors?.name?.message}
         >
-          Username
+          Name
         </Input>
         <Input
           id="registerPassword"

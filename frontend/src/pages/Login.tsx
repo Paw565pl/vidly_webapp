@@ -6,7 +6,7 @@ import { z } from "zod";
 import Input from "../components/common/Input";
 import UserSchema from "../schemas/UserSchema";
 
-const schema = UserSchema.pick({ username: true, password: true });
+const schema = UserSchema.pick({ name: true, password: true });
 
 type FormData = z.infer<typeof schema>;
 
@@ -26,12 +26,12 @@ const LoginForm = () => {
       <h1>Login</h1>
       <Form onSubmit={handleSubmit(submitAction)}>
         <Input
-          id="loginUsername"
-          register={register("username")}
+          id="loginName"
+          register={register("name")}
           autofocus={true}
-          errorMessage={errors?.username?.message}
+          errorMessage={errors?.name?.message}
         >
-          Username
+          Name
         </Input>
         <Input
           id="loginPassword"
