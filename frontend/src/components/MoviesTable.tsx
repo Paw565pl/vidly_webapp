@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import Movie from "../entities/Movie";
 import createSlug from "../utils/createSlug";
 import resolveObjectPath from "../utils/resolveObjectPath";
-import LikeButton from "./common/LikeButton";
 
 interface Header {
   value: string;
@@ -27,11 +26,10 @@ const MoviesTable = ({ movies, sorting, onSort, onDelete }: Props) => {
     { value: "title", label: "Title" },
     { value: "genre.name", label: "Genre" },
     { value: "numberInStock", label: "Stock" },
-    { value: "dailyRentalRate", label: "Rate" },
+    { value: "dailyRentalRate", label: "Rate" }
   ];
 
   const renderSortIcon = (header: Header) => {
-    // FIXME: jumping sort icon
     if (sorting.value !== header.value) return null;
 
     switch (sorting.order) {
@@ -48,7 +46,7 @@ const MoviesTable = ({ movies, sorting, onSort, onDelete }: Props) => {
 
   const renderCell = (item: Movie, header: Header) =>
     resolveObjectPath(item, header.value) as ReactNode;
-
+    
   return (
     <Table striped>
       <thead>
@@ -58,11 +56,12 @@ const MoviesTable = ({ movies, sorting, onSort, onDelete }: Props) => {
               key={i}
               onClick={() => onSort(header.value)}
               style={header.label ? { cursor: "pointer" } : {}}
-            >
+            >1
               {header.label}
               {header.label && renderSortIcon(header)}
             </th>
           ))}
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -79,9 +78,6 @@ const MoviesTable = ({ movies, sorting, onSort, onDelete }: Props) => {
                 )}
               </td>
             ))}
-            <td>
-              <LikeButton />
-            </td>
             <td>
               <Button
                 variant={"danger"}
