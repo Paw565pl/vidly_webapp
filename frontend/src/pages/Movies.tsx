@@ -31,7 +31,7 @@ const Movies = () => {
     isLoading,
     error: fetchingMoviesError,
   } = useMovies();
-  const { data: fetchedGenres } = useGenres();
+  const { data: fetchedGenres, error: fetchingGenresError } = useGenres();
 
   const { mutate: deleteMovieById, error: deleteError } = useDeleteMovie();
 
@@ -44,12 +44,10 @@ const Movies = () => {
     sortObject: { value: "title", order: "asc" },
   });
 
-  if (fetchingMoviesError) throw new Error("fetching movies error");
+  if (fetchingMoviesError || fetchingGenresError)
+    throw new Error("fetching error");
 
   if (isLoading) return <p>Loading...</p>;
-
-  if (fetchedMovies?.length === 0)
-    return <h6>There are no movies in the database.</h6>;
 
   const genres = [{ _id: "", name: "All genres" }, ...(fetchedGenres || [])];
 
@@ -64,7 +62,7 @@ const Movies = () => {
 
   const filteredMovies = searchInput
     ? fetchedMovies?.filter((movie) =>
-        movie.title.toLowerCase().includes(searchInput.toLowerCase()),
+        movie.title.toLowerCase().includes(searchInput.toLowerCase())
       )
     : genreId
     ? fetchedMovies?.filter((movie) => movie.genre._id === genreId)
