@@ -26,7 +26,7 @@ const MoviesTable = ({ movies, sorting, onSort, onDelete }: Props) => {
     { value: "title", label: "Title" },
     { value: "genre.name", label: "Genre" },
     { value: "numberInStock", label: "Stock" },
-    { value: "dailyRentalRate", label: "Rate" }
+    { value: "dailyRentalRate", label: "Rate" },
   ];
 
   const renderSortIcon = (header: Header) => {
@@ -46,7 +46,7 @@ const MoviesTable = ({ movies, sorting, onSort, onDelete }: Props) => {
 
   const renderCell = (item: Movie, header: Header) =>
     resolveObjectPath(item, header.value) as ReactNode;
-    
+
   return (
     <Table striped>
       <thead>
@@ -56,7 +56,7 @@ const MoviesTable = ({ movies, sorting, onSort, onDelete }: Props) => {
               key={i}
               onClick={() => onSort(header.value)}
               style={header.label ? { cursor: "pointer" } : {}}
-            >1
+            >
               {header.label}
               {header.label && renderSortIcon(header)}
             </th>
