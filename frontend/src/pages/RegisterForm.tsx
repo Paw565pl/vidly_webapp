@@ -40,7 +40,7 @@ const RegisterForm = () => {
           id="registerEmail"
           register={register("email")}
           type="email"
-          autofocus={true}
+          autoFocus
           errorMessage={validationErrors?.email?.message}
         >
           E-mail

@@ -1,17 +1,12 @@
-import { HTMLInputTypeAttribute, ReactNode } from "react";
-import { Form } from "react-bootstrap";
+import { ReactNode } from "react";
+import { Form, FormControlProps } from "react-bootstrap";
 import { UseFormRegisterReturn } from "react-hook-form";
 
-interface Props {
+interface Props extends FormControlProps {
   id: string;
   register?: UseFormRegisterReturn;
   children?: ReactNode;
   errorMessage?: string;
-  type?: HTMLInputTypeAttribute;
-  defaultValue?: string | number;
-  autofocus?: boolean;
-  placeholder?: string;
-  onChange?: (value: string) => void;
 }
 
 const Input = ({
@@ -19,23 +14,12 @@ const Input = ({
   register,
   children,
   errorMessage,
-  type,
-  defaultValue,
-  autofocus,
-  placeholder,
-  onChange,
+  ...inputProps
 }: Props) => {
   return (
     <Form.Group className="mb-3" controlId={id}>
       <Form.Label>{children}</Form.Label>
-      <Form.Control
-        {...register}
-        type={type || "text"}
-        autoFocus={autofocus}
-        defaultValue={defaultValue}
-        placeholder={placeholder}
-        onChange={(e) => onChange && onChange(e.target.value)}
-      />
+      <Form.Control {...register} {...inputProps} />
       {errorMessage && (
         <Form.Text className="text-danger">{errorMessage}</Form.Text>
       )}

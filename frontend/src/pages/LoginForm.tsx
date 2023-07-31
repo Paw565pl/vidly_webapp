@@ -33,7 +33,7 @@ const LoginForm = () => {
           id="loginEmail"
           type="email"
           register={register("email")}
-          autofocus={true}
+          autoFocus
         >
           Email
         </Input>
