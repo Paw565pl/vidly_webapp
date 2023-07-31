@@ -108,9 +108,16 @@ const Movies = () => {
 
   return (
     <Row>
-      {deleteError?.response?.status === 404 && (
+      {deleteError && (
         <ToastComponent bg="danger">
-          This movie has already been deleted.
+          {
+            deleteError?.response?.status === 404
+            ? "This movie has already been deleted!"
+            : deleteError?.response?.status === 401
+            ? "You have to be logged in!"
+            : "Oops. Something went wrong. Your movie was not deleted."
+          }
+          
         </ToastComponent>
       )}
       <Col xs={12} md={3}>
