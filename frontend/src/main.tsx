@@ -17,5 +17,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <RouterProvider router={router} />
       <ReactQueryDevtools></ReactQueryDevtools>
     </QueryClientProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

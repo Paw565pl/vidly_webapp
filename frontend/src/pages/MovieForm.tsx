@@ -36,7 +36,7 @@ const MovieForm = () => {
     else
       updateMovie(
         { itemId: currMovie._id, item: data },
-        { onSuccess: navigateToMovies }
+        { onSuccess: navigateToMovies },
       );
   };
 

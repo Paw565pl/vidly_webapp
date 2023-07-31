@@ -64,7 +64,7 @@ const Movies = () => {
 
   const filteredMovies = searchInput
     ? fetchedMovies?.filter((movie) =>
-        movie.title.toLowerCase().includes(searchInput.toLowerCase())
+        movie.title.toLowerCase().includes(searchInput.toLowerCase()),
       )
     : genreId
     ? fetchedMovies?.filter((movie) => movie.genre._id === genreId)
@@ -110,14 +110,11 @@ const Movies = () => {
     <Row>
       {deleteError && (
         <ToastComponent bg="danger">
-          {
-            deleteError?.response?.status === 404
+          {deleteError?.response?.status === 404
             ? "This movie has already been deleted!"
             : deleteError?.response?.status === 401
             ? "You have to be logged in!"
-            : "Oops. Something went wrong. Your movie was not deleted."
-          }
-          
+            : "Oops. Something went wrong. Your movie was not deleted."}
         </ToastComponent>
       )}
       <Col xs={12} md={3}>

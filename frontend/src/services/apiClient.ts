@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
 import useCurrentUser from "../hooks/useCurrentUser";
-import { apiUrl } from "./config.json";
 
 interface updateQuery<T, P = void> {
   itemId: string;
@@ -8,7 +7,7 @@ interface updateQuery<T, P = void> {
 }
 
 const axiosInstance = axios.create({
-  baseURL: apiUrl,
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 const { getUserJwt } = useCurrentUser();
