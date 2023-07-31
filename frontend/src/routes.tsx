@@ -1,16 +1,6 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import Layout from "./Layout";
-import PrivateRoute from "./components/common/PrivateRoute";
 import useCurrentUser from "./hooks/useCurrentUser";
-import Customers from "./pages/Customers";
-import LoginForm from "./pages/LoginForm";
-import Logout from "./pages/Logout";
-import MovieForm from "./pages/MovieForm";
-import Movies from "./pages/Movies";
-import NotFound from "./pages/NotFound";
-import Profile from "./pages/Profile";
-import RegisterForm from "./pages/RegisterForm";
-import Rentals from "./pages/Rentals";
 
 const { getUser } = useCurrentUser();
 const isUser = !!getUser();
@@ -22,42 +12,93 @@ const router = createBrowserRouter([
     errorElement: <Navigate to={"not-found"} />,
     children: [
       { index: true, element: <Navigate to={"movies"} /> },
-      { path: "movies", element: <Movies /> },
-      { path: "movies/:slug", element: <MovieForm /> },
       {
-        path: "login",
-        element: (
-          <PrivateRoute
-            condition={!isUser}
-            element={<LoginForm />}
-            redirectTo={"/"}
-          />
-        ),
+        path: "movies",
+        lazy: async () => {
+          const Movies = (await import("./pages/Movies")).default;
+          return { element: <Movies /> };
+        },
       },
       {
-        path: "register",
-        element: (
-          <PrivateRoute
-            condition={!isUser}
-            element={<RegisterForm />}
-            redirectTo={"/"}
-          />
-        ),
+        path: "movies/:slug",
+        lazy: async () => {
+          const MovieForm = (await import("./pages/MovieForm")).default;
+          return { element: <MovieForm /> };
+        },
       },
-      { path: "profile", element: <Profile /> },
       {
-        path: "logout",
-        element: (
-          <PrivateRoute
-            condition={isUser}
-            element={<Logout />}
-            redirectTo={"/"}
-          />
-        ),
+        lazy: async () => {
+          const PrivateRoutes = (
+            await import("./components/common/PrivateRoutes")
+          ).default;
+          return {
+            element: <PrivateRoutes condition={!isUser} redirectTo={"/"} />,
+          };
+        },
+        children: [
+          {
+            path: "login",
+            lazy: async () => {
+              const Login = (await import("./pages/LoginForm")).default;
+              return { element: <Login /> };
+            },
+          },
+          {
+            path: "register",
+            lazy: async () => {
+              const Register = (await import("./pages/RegisterForm")).default;
+              return { element: <Register /> };
+            },
+          },
+        ],
       },
-      { path: "customers", element: <Customers /> },
-      { path: "rentals", element: <Rentals /> },
-      { path: "not-found", element: <NotFound /> },
+      {
+        lazy: async () => {
+          const PrivateRoutes = (
+            await import("./components/common/PrivateRoutes")
+          ).default;
+          return {
+            element: <PrivateRoutes condition={isUser} redirectTo={"/"} />,
+          };
+        },
+        children: [
+          {
+            path: "logout",
+            lazy: async () => {
+              const Logout = (await import("./pages/Logout")).default;
+              return { element: <Logout /> };
+            },
+          },
+        ],
+      },
+      {
+        path: "profile",
+        lazy: async () => {
+          const Profile = (await import("./pages/Profile")).default;
+          return { element: <Profile /> };
+        },
+      },
+      {
+        path: "customers",
+        lazy: async () => {
+          const Customers = (await import("./pages/Customers")).default;
+          return { element: <Customers /> };
+        },
+      },
+      {
+        path: "rentals",
+        lazy: async () => {
+          const Rentals = (await import("./pages/Rentals")).default;
+          return { element: <Rentals /> };
+        },
+      },
+      {
+        path: "not-found",
+        lazy: async () => {
+          const NotFound = (await import("./pages/NotFound")).default;
+          return { element: <NotFound /> };
+        },
+      },
     ],
   },
 ]);
