@@ -133,7 +133,7 @@ const Movies = () => {
         <Input
           id="movieSearch"
           placeholder="Search..."
-          onChange={(value) => handleSearch(value)}
+          onChange={(e) => handleSearch(e.target.value)}
         ></Input>
         <MoviesHeading moviesCount={sortedMovies?.length || 0}></MoviesHeading>
         <MoviesTable
