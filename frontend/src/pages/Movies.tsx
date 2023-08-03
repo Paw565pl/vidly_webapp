@@ -62,7 +62,7 @@ const Movies = () => {
 
   const filteredMovies = searchInput
     ? fetchedMovies?.filter((movie) =>
-        movie.title.toLowerCase().includes(searchInput.toLowerCase())
+        movie.title.toLowerCase().includes(searchInput.toLowerCase()),
       )
     : genreId
     ? fetchedMovies?.filter((movie) => movie.genre._id === genreId)

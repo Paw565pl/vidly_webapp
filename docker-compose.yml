@@ -8,12 +8,12 @@ services:
       - db:/data/db
   backend:
     build:
-      context: ./vidly-api-node
+      context: ./backend
       dockerfile: Dockerfile
     ports:
       - "3900:3900"
     volumes:
-      - ./vidly-api-node:/backend
+      - ./backend:/backend
       - /backend/node_modules
     depends_on:
       - db
