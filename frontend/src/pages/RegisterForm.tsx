@@ -28,7 +28,7 @@ const RegisterForm = () => {
       {registerError && (
         <ToastComponent bg="danger">
           {registerError.response?.status === 400
-            ? "This user already exists! Try to login instead."
+            ? "This user already exists!"
             : "Oops. Something went wrong. Your account wasn't created."}
         </ToastComponent>
       )}
