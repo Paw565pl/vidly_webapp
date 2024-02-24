@@ -20,8 +20,6 @@ const useUpdateMovie = () => {
       queryClient.invalidateQueries({
         queryKey,
       }),
-
-    retry: false,
   });
 };
 

@@ -22,17 +22,13 @@ const useDeleteMovie = () => {
       return previousMovies;
     },
 
-    onSuccess: () => {
+    onSuccess: () =>
       queryClient.invalidateQueries({
         queryKey,
-      });
-    },
+      }),
 
-    onError: (_error, _deletedMovieId, previousMovies) => {
-      if (!previousMovies) return;
-
-      queryClient.setQueryData<Movie[]>(queryKey, previousMovies);
-    },
+    onError: (_error, _deletedMovieId, previousMovies) =>
+      queryClient.setQueryData<Movie[]>(queryKey, previousMovies),
   });
 };
 

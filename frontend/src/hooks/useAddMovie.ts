@@ -10,13 +10,10 @@ const useAddMovie = () => {
 
   return useMutation<Movie, AxiosError, MovieFormValues, Movie[]>({
     mutationFn: movieService.add,
-
     onSuccess: () =>
       queryClient.invalidateQueries({
         queryKey,
       }),
-
-    retry: false,
   });
 };
 
