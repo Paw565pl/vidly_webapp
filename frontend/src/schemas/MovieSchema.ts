@@ -5,11 +5,14 @@ const MovieSchema = z.object({
     .string({
       required_error: "this field is required",
     })
+    .trim()
     .min(5, "minimum length is 5 characters")
     .max(50, "maximum length is 50 characters"),
-  genreId: z.string({
-    required_error: "this field is required",
-  }),
+  genreId: z
+    .string({
+      required_error: "this field is required",
+    })
+    .trim(),
   numberInStock: z
     .number({
       required_error: "this field is required",
