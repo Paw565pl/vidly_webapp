@@ -5,7 +5,7 @@ interface Props {
   redirectTo: To;
 }
 
-const PrivateRoutes = ({ condition, redirectTo }: Props) =>
+const PrivateRoute = ({ condition, redirectTo }: Props) =>
   condition ? <Outlet /> : <Navigate to={redirectTo} />;
 
-export default PrivateRoutes;
+export default PrivateRoute;
