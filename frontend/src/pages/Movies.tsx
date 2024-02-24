@@ -21,52 +21,48 @@ interface SortObject {
 interface MovieQuery {
   activePage: number;
   searchInput: string;
-  genreId: string;
+  selectedGenreId: string;
   sortObject: SortObject;
 }
 
 const Movies = () => {
-  const {
-    data: fetchedMovies,
-    isLoading,
-    error: fetchingMoviesError,
-  } = useMovies();
-  const { data: fetchedGenres, error: fetchingGenresError } = useGenres();
-
-  const { mutate: deleteMovieById, error: deleteError } = useDeleteMovie();
+  const { data: movies, isLoading, error: fetchingMoviesError } = useMovies();
+  const { data: genres, error: fetchingGenresError } = useGenres();
+  const { mutate: deleteMovie, error: deleteMovieError } = useDeleteMovie();
 
   const navigate = useNavigate();
 
   const [movieQuery, setMovieQuery] = useState<MovieQuery>({
     activePage: 1,
     searchInput: "",
-    genreId: "",
+    selectedGenreId: "",
     sortObject: { value: "title", order: "asc" },
   });
+  const {
+    activePage,
+    searchInput,
+    selectedGenreId,
+    sortObject: { value: sortValue, order: sortOrder },
+  } = movieQuery;
 
   if (fetchingMoviesError || fetchingGenresError)
     throw new Error("fetching error");
 
   if (isLoading) return <p>Loading...</p>;
 
-  const genres = [{ _id: "", name: "All genres" }, ...(fetchedGenres || [])];
-
+  const selectGenresItems = [
+    { _id: "", name: "All genres" },
+    ...(genres || []),
+  ];
   const pageSize = 4;
 
-  const {
-    activePage,
-    searchInput,
-    genreId,
-    sortObject: { value: sortValue, order: sortOrder },
-  } = movieQuery;
-
   const filteredMovies = searchInput
-    ? fetchedMovies?.filter((movie) =>
-        movie.title.toLowerCase().includes(searchInput.toLowerCase()),
+    ? movies?.filter((movie) =>
+        movie.title.toLowerCase().includes(searchInput.toLowerCase())
       )
-    : genreId
-      ? fetchedMovies?.filter((movie) => movie.genre._id === genreId)
-      : fetchedMovies;
+    : selectedGenreId
+    ? movies?.filter((movie) => movie.genre._id === selectedGenreId)
+    : movies;
 
   const sortedMovies = sortValue
     ? filteredMovies?.sort((movieA, movieB) => {
@@ -80,13 +76,25 @@ const Movies = () => {
     : filteredMovies;
 
   const handlePageChange = (page: number) =>
-    setMovieQuery({ ...movieQuery, activePage: page });
+    setMovieQuery((previousMovieQuery) => ({
+      ...previousMovieQuery,
+      activePage: page,
+    }));
 
-  const handleGenreSelect = (genreId: string) =>
-    setMovieQuery({ ...movieQuery, activePage: 1, genreId });
+  const handleGenreSelect = (selectedGenreId: string) =>
+    setMovieQuery((previousMovieQuery) => ({
+      ...previousMovieQuery,
+      activePage: 1,
+      selectedGenreId,
+    }));
 
   const handleSearch = (searchInput: string) =>
-    setMovieQuery({ ...movieQuery, activePage: 1, genreId: "", searchInput });
+    setMovieQuery((previousMovieQuery) => ({
+      ...previousMovieQuery,
+      activePage: 1,
+      selectedGenreId: "",
+      searchInput,
+    }));
 
   const handleSort = (newSortValue: string) => {
     const sortObject: SortObject =
@@ -106,21 +114,19 @@ const Movies = () => {
 
   return (
     <Row>
-      {deleteError && (
+      {deleteMovieError && (
         <ToastComponent bg="danger">
-          {deleteError?.response?.status === 404
-            ? "This movie has already been deleted!"
-            : deleteError?.response?.status === 401
-              ? "You have to be logged in!"
-              : "Oops. Something went wrong. Your movie was not deleted."}
+          {deleteMovieError?.response?.status === 401
+            ? "You have to be logged in!"
+            : "Oops. Something went wrong."}
         </ToastComponent>
       )}
       <Col xs={12} md={3}>
         <ListGroupComponent
-          items={genres}
-          selectedItemId={genreId}
+          items={selectGenresItems}
+          selectedItemId={selectedGenreId}
           onItemSelect={handleGenreSelect}
-        ></ListGroupComponent>
+        />
       </Col>
       <Col>
         <Button
@@ -132,22 +138,22 @@ const Movies = () => {
         </Button>
         <Input
           id="movieSearch"
-          placeholder="Search..."
+          placeholder="Search here"
           onChange={(e) => handleSearch(e.target.value)}
-        ></Input>
-        <MoviesHeading moviesCount={sortedMovies?.length || 0}></MoviesHeading>
+        />
+        <MoviesHeading moviesCount={sortedMovies?.length || 0} />
         <MoviesTable
           movies={paginatedMovies}
           sorting={{ value: sortValue, order: sortOrder }}
           onSort={(sortValue) => handleSort(sortValue)}
-          onDelete={(movieId) => deleteMovieById(movieId)}
-        ></MoviesTable>
+          onDelete={(movieId) => deleteMovie(movieId)}
+        />
         <PaginationComponent
           itemsCount={sortedMovies?.length || 0}
           pageSize={pageSize}
           activePage={activePage}
           onPageChange={handlePageChange}
-        ></PaginationComponent>
+        />
       </Col>
     </Row>
   );
