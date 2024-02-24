@@ -1,21 +1,18 @@
 import { ReactNode } from "react";
-import { Form } from "react-bootstrap";
+import { Form, FormSelectProps } from "react-bootstrap";
 import { UseFormRegisterReturn } from "react-hook-form";
 
 interface Item {
-  [key: string]: string;
   _id: string;
   name: string;
 }
 
-interface Props {
+interface Props extends FormSelectProps {
   id: string;
   options: Item[];
   register?: UseFormRegisterReturn;
   children?: ReactNode;
   errorMessage?: string;
-  defaultValue?: string | number;
-  autofocus?: boolean;
 }
 
 const Select = ({
@@ -24,18 +21,13 @@ const Select = ({
   register,
   children,
   errorMessage,
-  defaultValue,
-  autofocus,
+  ...props
 }: Props) => {
   return (
     <Form.Group className="mb-3" controlId={id}>
       <Form.Label>{children}</Form.Label>
-      <Form.Select
-        {...register}
-        autoFocus={autofocus}
-        defaultValue={defaultValue}
-      >
-        <option value={""}></option>
+      <Form.Select {...register} {...props}>
+        <option value={""}>Select one</option>
         {options.map((option) => (
           <option key={option._id} value={option._id}>
             {option.name}
