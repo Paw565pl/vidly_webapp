@@ -1,15 +1,12 @@
-import { useEffect } from "react";
-import useCurrentUser from "../hooks/useCurrentUser";
+import { useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContextProvider";
 
 const Logout = () => {
-  const { clearUser } = useCurrentUser();
+  const { clearUserJwt } = useContext(AuthContext);
+  clearUserJwt();
 
-  useEffect(() => {
-    clearUser();
-    window.location.href = "/";
-  }, []);
-
-  return <p>Logging you out...</p>;
+  return <Navigate to={"/movies"} />;
 };
 
 export default Logout;

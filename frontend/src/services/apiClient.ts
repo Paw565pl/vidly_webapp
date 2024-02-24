@@ -1,17 +1,24 @@
 import axios, { AxiosRequestConfig } from "axios";
-import useCurrentUser from "../hooks/useCurrentUser";
+import { getUserJwt } from "../contexts/AuthContextProvider";
 
 interface updateQuery<T, P = void> {
   itemId: string;
   item: T | P;
 }
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
-const { getUserJwt } = useCurrentUser();
-axiosInstance.defaults.headers.common["x-auth-token"] = getUserJwt();
+axiosInstance.interceptors.request.use((config) => {
+  const token = getUserJwt();
+
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+
+  return config;
+});
 
 class ApiClient<T, P = void> {
   endpoint: string;

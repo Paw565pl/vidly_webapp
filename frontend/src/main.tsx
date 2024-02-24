@@ -5,6 +5,7 @@ import ms from "ms";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
+import AuthContextProvider from "./contexts/AuthContextProvider.tsx";
 import "./index.css";
 import router from "./routes.tsx";
 
@@ -15,7 +16,9 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <AuthContextProvider>
+        <RouterProvider router={router} />
+      </AuthContextProvider>
       <ReactQueryDevtools />
     </QueryClientProvider>
   </React.StrictMode>,

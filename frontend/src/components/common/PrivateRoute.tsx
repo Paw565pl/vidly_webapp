@@ -1,11 +1,16 @@
-import { Navigate, Outlet, To } from "react-router-dom";
+import { ReactNode, useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContextProvider";
 
 interface Props {
-  condition: boolean;
-  redirectTo: To;
+  children: ReactNode;
 }
 
-const PrivateRoute = ({ condition, redirectTo }: Props) =>
-  condition ? <Outlet /> : <Navigate to={redirectTo} />;
+const PrivateRoute = ({ children }: Props) => {
+  const { isAuthenticated } = useContext(AuthContext);
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+
+  return children;
+};
 
 export default PrivateRoute;

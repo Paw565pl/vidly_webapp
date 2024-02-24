@@ -58,11 +58,11 @@ const Movies = () => {
 
   const filteredMovies = searchInput
     ? movies?.filter((movie) =>
-        movie.title.toLowerCase().includes(searchInput.toLowerCase())
+        movie.title.toLowerCase().includes(searchInput.toLowerCase()),
       )
     : selectedGenreId
-    ? movies?.filter((movie) => movie.genre._id === selectedGenreId)
-    : movies;
+      ? movies?.filter((movie) => movie.genre._id === selectedGenreId)
+      : movies;
 
   const sortedMovies = sortValue
     ? filteredMovies?.sort((movieA, movieB) => {

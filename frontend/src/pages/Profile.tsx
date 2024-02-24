@@ -1,10 +1,11 @@
-import useCurrentUser from "../hooks/useCurrentUser";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContextProvider";
 
 const Profile = () => {
-  const { getUser } = useCurrentUser();
-  const loggedInUser = getUser();
+  const { getUser } = useContext(AuthContext);
+  const user = getUser();
 
-  return <h1>Hi {loggedInUser?.name}</h1>;
+  return <h1>Hi {user?.name}</h1>;
 };
 
 export default Profile;

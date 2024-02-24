@@ -1,9 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useContext } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Input from "../components/common/Input";
 import ToastComponent from "../components/common/ToastComponent";
+import { AuthContext } from "../contexts/AuthContextProvider";
 import useRegisterUser from "../hooks/useRegisterUser";
 import UserSchema, { UserRegisterFormValues } from "../schemas/UserSchema";
 
@@ -22,6 +24,9 @@ const RegisterForm = () => {
     registerUser(data, {
       onSuccess: () => navigate("/login"),
     });
+
+  const { isAuthenticated } = useContext(AuthContext);
+  if (isAuthenticated) return <Navigate to={"/movies"} replace />;
 
   return (
     <div>

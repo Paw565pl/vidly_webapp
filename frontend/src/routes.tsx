@@ -1,9 +1,6 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import Layout from "./Layout";
-import useCurrentUser from "./hooks/useCurrentUser";
-
-const { getUser } = useCurrentUser();
-const isUser = !!getUser();
+import PrivateRoute from "./components/common/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -27,58 +24,31 @@ const router = createBrowserRouter([
         },
       },
       {
+        path: "login",
         lazy: async () => {
-          const PrivateRoutes = (
-            await import("./components/common/PrivateRoute")
-          ).default;
+          const Login = (await import("./pages/LoginForm")).default;
+          return { element: <Login /> };
+        },
+      },
+      {
+        path: "register",
+        lazy: async () => {
+          const Register = (await import("./pages/RegisterForm")).default;
+          return { element: <Register /> };
+        },
+      },
+      {
+        path: "profile",
+        lazy: async () => {
+          const Profile = (await import("./pages/Profile")).default;
           return {
             element: (
-              <PrivateRoutes condition={!isUser} redirectTo={"/movies"} />
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
             ),
           };
         },
-        children: [
-          {
-            path: "login",
-            lazy: async () => {
-              const Login = (await import("./pages/LoginForm")).default;
-              return { element: <Login /> };
-            },
-          },
-          {
-            path: "register",
-            lazy: async () => {
-              const Register = (await import("./pages/RegisterForm")).default;
-              return { element: <Register /> };
-            },
-          },
-        ],
-      },
-      {
-        lazy: async () => {
-          const PrivateRoutes = (
-            await import("./components/common/PrivateRoute")
-          ).default;
-          return {
-            element: <PrivateRoutes condition={isUser} redirectTo={"/login"} />,
-          };
-        },
-        children: [
-          {
-            path: "logout",
-            lazy: async () => {
-              const Logout = (await import("./pages/Logout")).default;
-              return { element: <Logout /> };
-            },
-          },
-          {
-            path: "profile",
-            lazy: async () => {
-              const Profile = (await import("./pages/Profile")).default;
-              return { element: <Profile /> };
-            },
-          },
-        ],
       },
       {
         path: "customers",

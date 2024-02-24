@@ -1,20 +1,26 @@
-import { NavLink } from "react-router-dom";
-import useCurrentUser from "../../hooks/useCurrentUser";
+import { useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContextProvider";
 
 const AuthPanel = () => {
-  const { getUser } = useCurrentUser();
-  const loggedUser = getUser();
+  const navigate = useNavigate();
+  const { isAuthenticated, clearUserJwt } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    clearUserJwt();
+    navigate("/movies");
+  };
 
   return (
     <div className="d-flex">
-      {loggedUser ? (
+      {isAuthenticated ? (
         <>
           <NavLink to={"/profile"} className={"nav-link"}>
             Profile
           </NavLink>
-          <NavLink to={"/logout"} className={"nav-link"}>
+          <button className={"nav-link"} onClick={handleLogout}>
             Logout
-          </NavLink>
+          </button>
         </>
       ) : (
         <>

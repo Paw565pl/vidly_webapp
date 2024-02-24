@@ -1,13 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
+import { Navigate, useNavigate } from "react-router-dom";
 import Input from "../components/common/Input";
 import ToastComponent from "../components/common/ToastComponent";
+import { AuthContext } from "../contexts/AuthContextProvider";
 import useLoginUser from "../hooks/useLoginUser";
 import { UserLoginFormValues, loginSchema } from "../schemas/UserSchema";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm<UserLoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
@@ -15,8 +19,11 @@ const LoginForm = () => {
   const { mutate: loginUser, error: loginError } = useLoginUser();
   const submitAction = (data: UserLoginFormValues) =>
     loginUser(data, {
-      onSuccess: () => (window.location.href = "/"),
+      onSuccess: () => navigate("/movies"),
     });
+
+  const { isAuthenticated } = useContext(AuthContext);
+  if (isAuthenticated) return <Navigate to={"/movies"} replace />;
 
   return (
     <div>
