@@ -1,13 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import AuthToken, { UserLoginData } from "../entities/Auth";
+import { UserLoginFormValues } from "../schemas/UserSchema";
 import authService from "../services/authService";
 import useCurrentUser from "./useCurrentUser";
 
 const useLoginUser = () => {
   const { setUser } = useCurrentUser();
 
-  return useMutation<AuthToken, AxiosError, UserLoginData>({
+  return useMutation<string, AxiosError, UserLoginFormValues>({
     mutationFn: authService.add,
     onSuccess: (jwt) => setUser(jwt),
   });

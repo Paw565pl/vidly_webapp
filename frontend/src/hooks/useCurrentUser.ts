@@ -1,5 +1,4 @@
 import { jwtDecode } from "jwt-decode";
-import AuthToken from "../entities/Auth";
 import User from "../entities/User";
 
 interface DecodedUser extends User {
@@ -9,7 +8,7 @@ interface DecodedUser extends User {
 const tokenKey = "token";
 
 const useCurrentUser = () => {
-  const setUser = (jwt: AuthToken) => localStorage.setItem(tokenKey, jwt);
+  const setUser = (jwt: string) => localStorage.setItem(tokenKey, jwt);
   const getUser = (): DecodedUser | null => {
     const currUser = localStorage.getItem(tokenKey);
     if (!currUser) return null;

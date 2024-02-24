@@ -4,17 +4,16 @@ import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import Input from "../components/common/Input";
 import ToastComponent from "../components/common/ToastComponent";
-import { UserLoginData } from "../entities/Auth";
 import useLoginUser from "../hooks/useLoginUser";
-import { loginSchema } from "../schemas/UserSchema";
+import { UserLoginFormValues, loginSchema } from "../schemas/UserSchema";
 
 const LoginForm = () => {
-  const { register, handleSubmit } = useForm<UserLoginData>({
+  const { register, handleSubmit } = useForm<UserLoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
 
   const { mutate: loginUser, error: loginError } = useLoginUser();
-  const submitAction = (data: UserLoginData) =>
+  const submitAction = (data: UserLoginFormValues) =>
     loginUser(data, {
       onSuccess: () => (window.location.href = "/"),
     });

@@ -28,7 +28,6 @@ const UserSchema = z.object({
 export type UserRegisterFormValues = z.infer<typeof UserSchema>;
 
 export const loginSchema = UserSchema.pick({ email: true, password: true });
-
 export type UserLoginFormValues = z.infer<typeof loginSchema>;
 
 export default UserSchema;

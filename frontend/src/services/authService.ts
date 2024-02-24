@@ -1,6 +1,6 @@
-import AuthToken, { UserLoginData } from "../entities/Auth";
+import { UserLoginFormValues } from "../schemas/UserSchema";
 import ApiClient from "./apiClient";
 
-const authService = new ApiClient<AuthToken, UserLoginData>("/auth");
+const authService = new ApiClient<string, UserLoginFormValues>("/auth");
 
 export default authService;
