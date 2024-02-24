@@ -1,4 +1,4 @@
-FROM node:18-alpine3.18
+FROM node:20-alpine
 
 RUN adduser -S frontend
 RUN addgroup frontend && addgroup frontend frontend
@@ -11,4 +11,4 @@ RUN npm i -g pnpm@latest && pnpm i --frozen-lockfile
 
 COPY . .
 
-CMD [ "pnpm", "dev" ]
+CMD pnpm dev
