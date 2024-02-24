@@ -12,7 +12,11 @@ import { UserLoginFormValues, loginSchema } from "../schemas/UserSchema";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm<UserLoginFormValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors: validationErrors },
+  } = useForm<UserLoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
 
@@ -39,6 +43,7 @@ const LoginForm = () => {
           id="loginEmail"
           type="email"
           register={register("email")}
+          errorMessage={validationErrors.email?.message}
           autoFocus
         >
           Email
@@ -46,6 +51,7 @@ const LoginForm = () => {
         <Input
           id="loginPassword"
           register={register("password")}
+          errorMessage={validationErrors.password?.message}
           type={"password"}
         >
           Password
