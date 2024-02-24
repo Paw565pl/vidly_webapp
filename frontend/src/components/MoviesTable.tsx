@@ -55,7 +55,7 @@ const MoviesTable = ({ movies, sorting, onSort, onDelete }: Props) => {
             <th
               key={i}
               onClick={() => onSort(header.value)}
-              style={header.label ? { cursor: "pointer" } : {}}
+              style={{ cursor: "pointer" }}
             >
               {header.label}
               {header.label && renderSortIcon(header)}
