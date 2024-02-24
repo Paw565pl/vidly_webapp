@@ -4,9 +4,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Input from "../components/common/Input";
 import ToastComponent from "../components/common/ToastComponent";
-import { UserRegisterData } from "../entities/User";
 import useRegisterUser from "../hooks/useRegisterUser";
-import UserSchema from "../schemas/UserSchema";
+import UserSchema, { UserRegisterFormValues } from "../schemas/UserSchema";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -14,12 +13,12 @@ const RegisterForm = () => {
     register,
     handleSubmit,
     formState: { errors: validationErrors },
-  } = useForm<UserRegisterData>({
+  } = useForm<UserRegisterFormValues>({
     resolver: zodResolver(UserSchema),
   });
 
   const { mutate: registerUser, error: registerError } = useRegisterUser();
-  const submitAction = (data: UserRegisterData) =>
+  const submitAction = (data: UserRegisterFormValues) =>
     registerUser(data, {
       onSuccess: () => navigate("/login"),
     });

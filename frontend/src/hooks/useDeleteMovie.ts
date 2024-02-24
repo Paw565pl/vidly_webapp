@@ -15,10 +15,8 @@ const useDeleteMovie = () => {
 
       const previousMovies = queryClient.getQueryData<Movie[]>(queryKey) || [];
 
-      queryClient.setQueryData<Movie[]>(
-        queryKey,
-        (oldMovies) =>
-          oldMovies?.filter((movie) => movie._id !== deletedMovieId),
+      queryClient.setQueryData<Movie[]>(queryKey, (oldMovies) =>
+        oldMovies?.filter((movie) => movie._id !== deletedMovieId),
       );
 
       return previousMovies;

@@ -5,12 +5,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import Input from "../components/common/Input";
 import Select from "../components/common/Select";
 import ToastComponent from "../components/common/ToastComponent";
-import { MovieForm } from "../entities/Movie";
 import useAddMovie from "../hooks/useAddMovie";
 import useGenres from "../hooks/useGenres";
 import useMovies from "../hooks/useMovies";
 import useUpdateMovie from "../hooks/useUpdateMovie";
-import MovieSchema from "../schemas/MovieSchema";
+import MovieSchema, { MovieFormValues } from "../schemas/MovieSchema";
 import createSlug from "../utils/createSlug";
 
 const MovieForm = () => {
@@ -24,14 +23,14 @@ const MovieForm = () => {
     register,
     handleSubmit,
     formState: { errors: validationErrors, isSubmitted },
-  } = useForm<MovieForm>({
+  } = useForm<MovieFormValues>({
     resolver: zodResolver(MovieSchema),
   });
 
   const { mutate: addMovie, error: addingError } = useAddMovie();
   const { mutate: updateMovie, error: updatingError } = useUpdateMovie();
 
-  const submitAction = (data: MovieForm) => {
+  const submitAction = (data: MovieFormValues) => {
     if (!currMovie) addMovie(data, { onSuccess: navigateToMovies });
     else
       updateMovie(

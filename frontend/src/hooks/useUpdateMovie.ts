@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import Movie, { MovieForm } from "../entities/Movie";
+import Movie from "../entities/Movie";
+import { MovieFormValues } from "../schemas/MovieSchema";
 import movieService from "../services/movieService";
 
 interface QueryParams {
   itemId: string;
-  item: MovieForm;
+  item: MovieFormValues;
 }
 
 const useUpdateMovie = () => {

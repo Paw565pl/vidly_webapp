@@ -1,4 +1,4 @@
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import AuthToken from "../entities/Auth";
 import User from "../entities/User";
 

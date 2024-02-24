@@ -1,6 +1,7 @@
-import User, { UserRegisterData } from "../entities/User";
+import User from "../entities/User";
+import { UserRegisterFormValues } from "../schemas/UserSchema";
 import ApiClient from "./apiClient";
 
-const userService = new ApiClient<User, UserRegisterData>("/users");
+const userService = new ApiClient<User, UserRegisterFormValues>("/users");
 
 export default userService;
