@@ -27,8 +27,8 @@ const MovieForm = () => {
     resolver: zodResolver(MovieSchema),
   });
 
-  const { mutate: addMovie, error: addingError } = useAddMovie();
-  const { mutate: updateMovie, error: updatingError } = useUpdateMovie();
+  const { mutate: addMovie, error: addError } = useAddMovie();
+  const { mutate: updateMovie, error: updateError } = useUpdateMovie();
 
   const submitAction = (data: MovieFormValues) => {
     if (!currMovie) addMovie(data, { onSuccess: navigateToMovies });
@@ -48,12 +48,12 @@ const MovieForm = () => {
 
   return (
     <div>
-      {(addingError || updatingError) && (
+      {(addError || updateError) && (
         <ToastComponent bg="danger">
-          {addingError?.response?.status === 401 ||
-          updatingError?.response?.status === 401
+          {addError?.response?.status === 401 ||
+          updateError?.response?.status === 401
             ? "You have to be logged in!"
-            : "Oops. Something went wrong. Your movie was not added."}
+            : "Oops. Something went wrong."}
         </ToastComponent>
       )}
 
