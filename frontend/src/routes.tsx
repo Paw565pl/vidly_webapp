@@ -32,7 +32,9 @@ const router = createBrowserRouter([
             await import("./components/common/PrivateRoute")
           ).default;
           return {
-            element: <PrivateRoutes condition={!isUser} redirectTo={"/"} />,
+            element: (
+              <PrivateRoutes condition={!isUser} redirectTo={"/movies"} />
+            ),
           };
         },
         children: [
@@ -58,7 +60,7 @@ const router = createBrowserRouter([
             await import("./components/common/PrivateRoute")
           ).default;
           return {
-            element: <PrivateRoutes condition={isUser} redirectTo={"/"} />,
+            element: <PrivateRoutes condition={isUser} redirectTo={"/login"} />,
           };
         },
         children: [
@@ -69,14 +71,14 @@ const router = createBrowserRouter([
               return { element: <Logout /> };
             },
           },
+          {
+            path: "profile",
+            lazy: async () => {
+              const Profile = (await import("./pages/Profile")).default;
+              return { element: <Profile /> };
+            },
+          },
         ],
-      },
-      {
-        path: "profile",
-        lazy: async () => {
-          const Profile = (await import("./pages/Profile")).default;
-          return { element: <Profile /> };
-        },
       },
       {
         path: "customers",
