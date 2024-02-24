@@ -1,4 +1,4 @@
-import jwt_decode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import AuthToken from "../entities/Auth";
 import User from "../entities/User";
 
@@ -14,7 +14,7 @@ const useCurrentUser = () => {
     const currUser = localStorage.getItem(tokenKey);
     if (!currUser) return null;
     try {
-      return jwt_decode(currUser);
+      return jwtDecode(currUser);
     } catch (err) {
       return null;
     }
