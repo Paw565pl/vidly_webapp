@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       {
         lazy: async () => {
           const PrivateRoutes = (
-            await import("./components/common/PrivateRoutes")
+            await import("./components/common/PrivateRoute")
           ).default;
           return {
             element: <PrivateRoutes condition={!isUser} redirectTo={"/"} />,
@@ -55,7 +55,7 @@ const router = createBrowserRouter([
       {
         lazy: async () => {
           const PrivateRoutes = (
-            await import("./components/common/PrivateRoutes")
+            await import("./components/common/PrivateRoute")
           ).default;
           return {
             element: <PrivateRoutes condition={isUser} redirectTo={"/"} />,
