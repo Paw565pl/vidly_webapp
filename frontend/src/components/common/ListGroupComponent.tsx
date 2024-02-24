@@ -1,7 +1,7 @@
 import { ListGroup } from "react-bootstrap";
 
 interface Props {
-  items: { [key: string]: string }[];
+  items: { [key: string]: string; _id: string }[];
   selectedItemId: string;
   onItemSelect: (itemId: string) => void;
 }
